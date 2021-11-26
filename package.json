@@ -1,0 +1,22 @@
+{
+  "name": "notes-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile:sass": "node-sass scss/main.scss css/style.css -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xander1796/Notes-App.git"
+  },
+  "author": "Alex",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xander1796/Notes-App/issues"
+  },
+  "homepage": "https://github.com/Xander1796/Notes-App#readme",
+  "devDependencies": {
+    "node-sass": "^6.0.1"
+  }
+}
