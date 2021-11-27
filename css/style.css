@@ -34,7 +34,7 @@ span, a {
   position: relative;
   width: 100%;
   border-radius: 10rem;
-  height: 4rem;
+  height: 5rem;
   margin-top: 3rem; }
   .search-icon {
     position: absolute;
@@ -72,11 +72,32 @@ span, a {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     cursor: pointer;
     margin-right: 1.5rem;
     border-radius: 50%;
     padding: 1rem;
     margin-left: -1rem; }
+    .info-when-deleting-note .cancel-note-deleting::after {
+      content: "Cancel";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f1f1f1;
+      color: #171738;
+      font-size: 1.5rem;
+      font-weight: 600;
+      min-width: 5rem;
+      min-height: 3rem;
+      white-space: nowrap;
+      bottom: calc( (3rem + 1rem) * -1);
+      border-radius: .5rem;
+      padding: .4rem;
+      opacity: 0;
+      visibility: hidden; }
+    .info-when-deleting-note .cancel-note-deleting:hover::after {
+      opacity: 1;
+      visibility: visible; }
     .info-when-deleting-note .cancel-note-deleting:hover {
       background: #f1f1f1; }
     .info-when-deleting-note .cancel-note-deleting svg {
@@ -88,6 +109,10 @@ span, a {
     font-size: 1.7rem;
     font-weight: 600;
     color: #171738; }
+
+.info-when-deleting-note-inactive {
+  visibility: hidden;
+  opacity: 0; }
 
 .home-actions-buttons {
   display: flex;
@@ -123,7 +148,7 @@ span, a {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.05);
+  background: #f1f1f1;
   color: #171738;
   font-size: 1.5rem;
   font-weight: 600;
@@ -134,7 +159,7 @@ span, a {
   border-radius: .5rem;
   padding: .4rem;
   opacity: 0;
-  visibility: 0; }
+  visibility: hidden; }
 
 .home-delete-note-inactive svg path {
   fill: #A5A5A5; }
@@ -147,7 +172,7 @@ span, a {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.05);
+  background: #f1f1f1;
   color: #171738;
   font-size: 1.5rem;
   font-weight: 600;
@@ -158,12 +183,14 @@ span, a {
   border-radius: .5rem;
   padding: .4rem;
   opacity: 0;
-  visibility: 0; }
+  visibility: hidden; }
 
 #notes-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: column;
+  gap: 3rem;
   margin-top: 3rem; }
 
 .note-wrapper {
@@ -198,6 +225,9 @@ span, a {
     .note-wrapper .note-and-date:active {
       background: #f1f1f1; }
     .note-wrapper .note-and-date .note-content {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
       font-size: 1.7rem;
       margin-bottom: .7rem; }
     .note-wrapper .note-and-date .note-date {
@@ -229,3 +259,74 @@ span, a {
 @keyframes checkmark-path-anim {
   100% {
     stroke-dashoffset: 0; } }
+
+.edit-note-navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid #e9e9e9;
+  padding: 3rem 0;
+  margin-bottom: 3rem; }
+  .edit-note-navigation-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem; }
+
+.edit-note-navigation-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #171738;
+  font-weight: 600;
+  cursor: pointer;
+  padding: .5rem; }
+
+.edit-note-finish-edit:hover {
+  background: #f1f1f1; }
+
+.edit-note-finish-edit svg path {
+  stroke: #171738; }
+
+.edit-note-finish-edit,
+.edit-note-new-button {
+  border-radius: .5rem; }
+  .edit-note-finish-edit svg,
+  .edit-note-new-button svg {
+    width: 1.4rem;
+    margin-left: .5rem; }
+
+.edit-note-close-button {
+  border-radius: 50%; }
+  .edit-note-close-button:hover {
+    background: #f1f1f1; }
+  .edit-note-close-button svg {
+    width: 2.5rem; }
+    .edit-note-close-button svg path {
+      fill: #171738; }
+
+.edit-note-new-button {
+  background: #5757FB;
+  color: #ffffff; }
+  .edit-note-new-button svg path {
+    fill: #ffffff; }
+
+.edit-note-date {
+  font-size: 1.3rem;
+  color: #A5A5A5; }
+
+.edit-note-content {
+  width: 100%;
+  font-size: 1.7rem;
+  color: #171738;
+  background: #ffffff;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
+  padding: 2rem; }
+  .edit-note-content:focus {
+    border: none;
+    outline: none; }
