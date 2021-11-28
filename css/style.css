@@ -21,6 +21,12 @@ button {
 span, a {
   display: inline-block; }
 
+.hidden {
+  display: none !important; }
+
+.not-allowed {
+  cursor: not-allowed; }
+
 .nav {
   display: flex;
   align-items: center;
@@ -30,12 +36,49 @@ span, a {
     font-weight: 700;
     font-size: 3rem; }
 
-.search {
-  position: relative;
+.search-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3rem;
   width: 100%;
-  border-radius: 10rem;
-  height: 5rem;
   margin-top: 3rem; }
+  .search-wrapper .close-search {
+    cursor: pointer;
+    position: relative;
+    border-radius: 50%;
+    padding: .5rem; }
+    .search-wrapper .close-search::after {
+      content: "close";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f1f1f1;
+      color: #171738;
+      font-size: 1.5rem;
+      font-weight: 600;
+      min-width: 5rem;
+      min-height: 3rem;
+      white-space: nowrap;
+      bottom: calc( (3rem + 1rem) * -1);
+      border-radius: .5rem;
+      padding: .4rem;
+      opacity: 0;
+      visibility: hidden; }
+    .search-wrapper .close-search:hover::after {
+      opacity: 1;
+      visibility: visible; }
+    .search-wrapper .close-search:hover {
+      background: #f1f1f1; }
+    .search-wrapper .close-search svg {
+      width: 2.1rem;
+      height: 2.1rem; }
+
+.search {
+  width: 100%;
+  position: relative;
+  border-radius: 10rem;
+  height: 5rem; }
   .search-icon {
     position: absolute;
     width: 1.5rem;
@@ -52,11 +95,22 @@ span, a {
     outline: none;
     background: #F5F5F5;
     border-radius: 10rem;
-    padding: 0 2rem 0 4rem; }
+    padding: 0 2rem 0 4rem;
+    font-size: 1.7rem;
+    color: #171738; }
     .search-input::placeholder {
       font-size: 1.5rem;
       color: #A5A5A5;
       font-weight: 400; }
+
+.search-message {
+  width: 100%;
+  padding: 3rem 0;
+  border-bottom: 1px solid #e9e9e9; }
+  .search-message p {
+    font-size: 1.7rem;
+    color: #171738;
+    font-weight: 600; }
 
 .home-actions {
   display: flex;
@@ -139,6 +193,10 @@ span, a {
     height: 1.7rem; }
     .home-action-button svg path {
       fill: #171738; }
+  .home-action-button-inactive svg path {
+    fill: #A5A5A5; }
+  .home-action-button-inactive {
+    cursor: not-allowed; }
 
 .home-delete-note::after {
   display: flex;
@@ -160,9 +218,6 @@ span, a {
   padding: .4rem;
   opacity: 0;
   visibility: hidden; }
-
-.home-delete-note-inactive svg path {
-  fill: #A5A5A5; }
 
 .home-new-note::after {
   display: flex;
@@ -194,7 +249,8 @@ span, a {
   margin-top: 3rem; }
 
 .note-wrapper {
-  width: 100%; }
+  width: 100%;
+  list-style-type: none; }
   .note-wrapper .edit-note {
     font-size: 1.3rem;
     color: #171738;
@@ -286,34 +342,45 @@ span, a {
   cursor: pointer;
   padding: .5rem; }
 
-.edit-note-finish-edit:hover {
-  background: #f1f1f1; }
-
-.edit-note-finish-edit svg path {
-  stroke: #171738; }
-
-.edit-note-finish-edit,
-.edit-note-new-button {
-  border-radius: .5rem; }
-  .edit-note-finish-edit svg,
-  .edit-note-new-button svg {
-    width: 1.4rem;
-    margin-left: .5rem; }
-
-.edit-note-close-button {
-  border-radius: 50%; }
-  .edit-note-close-button:hover {
-    background: #f1f1f1; }
-  .edit-note-close-button svg {
-    width: 2.5rem; }
-    .edit-note-close-button svg path {
-      fill: #171738; }
-
-.edit-note-new-button {
+.edit-note-finish-edit {
+  border-radius: .5rem;
   background: #5757FB;
   color: #ffffff; }
-  .edit-note-new-button svg path {
-    fill: #ffffff; }
+  .edit-note-finish-edit svg {
+    width: 1.4rem;
+    margin-left: .5rem; }
+    .edit-note-finish-edit svg path {
+      stroke: #ffffff; }
+
+.edit-note-close-button {
+  border-radius: 50%;
+  position: relative; }
+  .edit-note-close-button::after {
+    content: "Go back";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f1f1f1;
+    color: #171738;
+    font-size: 1.5rem;
+    font-weight: 600;
+    min-width: 5rem;
+    min-height: 3rem;
+    white-space: nowrap;
+    bottom: calc( (3rem + 1rem) * -1);
+    border-radius: .5rem;
+    padding: .4rem;
+    opacity: 0;
+    visibility: hidden; }
+  .edit-note-close-button:hover {
+    background: #f1f1f1; }
+  .edit-note-close-button:hover::after {
+    opacity: 1;
+    visibility: visible; }
+  .edit-note-close-button svg {
+    width: 2.3rem; }
+    .edit-note-close-button svg path {
+      fill: #171738; }
 
 .edit-note-date {
   font-size: 1.3rem;
@@ -325,6 +392,7 @@ span, a {
   color: #171738;
   background: #ffffff;
   box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  line-height: 2.4rem;
   border-radius: 2rem;
   padding: 2rem; }
   .edit-note-content:focus {

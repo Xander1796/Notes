@@ -6,10 +6,31 @@
 // });
 
 const notesContainer = document.querySelector('#notes-container');
+
+const searchMessage = document.querySelector('.search-message');
+const searchMessageText = document.querySelector('.search-message p');
+const closeSearch = document.querySelector('.close-search');
+const homeActions = document.querySelector('.home-actions');
+
 const homeSection = document.querySelector('#home');
 const homeDeleteNote = document.querySelector('.home-delete-note');
+const homeNewNote = document.querySelector('.home-new-note');
+const homeActionButton = document.querySelectorAll('.home-action-button');
 const infoWhenDeletingNote = document.querySelector('.info-when-deleting-note');
-const searchSection = document.querySelector('#home-section');
+const editNoteSection = document.querySelector('#edit-note');
+const editNoteContent = document.querySelector('.edit-note-content');
+const editNoteDate = document.querySelector('.edit-note-date');
+
+
+const sections = [homeSection, editNoteSection];
+let activeSection = homeSection;
+
+const toggleSectionVisibility = function() {
+   sections.forEach(section => section.classList.add('hidden'));
+   activeSection.classList.remove('hidden');
+}
+
+toggleSectionVisibility();
 
 
 const getCurrentTime = function() {
@@ -34,19 +55,19 @@ const updateDate = function(note) {
    };
 };
 
-const notes = [{
+let notes = [{
    id: '0',
    content: "Hello there, this is your first note.",
    time: getCurrentTime(),
    date: getDate(),
-   selectedForRemoving: false,
+   isBeingEdited: false,
 },
 {
    id: '1',
    content: "Hello there, this is your second note.",
    time: getCurrentTime(),
    date: getDate(),
-   selectedForRemoving: false, 
+   isBeingEdited: false, 
 },
 
 {
@@ -54,7 +75,7 @@ const notes = [{
    content: "Hello there, this is your third note.",
    time: getCurrentTime(),
    date: getDate(),
-   selectedForRemoving: false, 
+   isBeingEdited: false, 
 }
 ]
 
@@ -62,19 +83,19 @@ let selectedNotesForRemoval = [];
 
       
 const newNote = function(id, content, time,  date) {
-   notes.push({
+   notes.push ({
       id: id,
       content: content,
-      date: date,
       time: time,
-      selectedForRemoving: false
+      date: date,
+      isBeingEdited: false
    });
 };
 
 
    const notesMarkup = function (note, date) {
       notesContainer.insertAdjacentHTML('afterbegin', `
-         <div id="${note.id}" class="note-wrapper">
+         <li id="${note.id}" class="note-wrapper">
             <button class="edit-note">
                   <svg id="Outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.853,1.148a3.626,3.626,0,0,0-5.124,0L1.465,17.412A4.968,4.968,0,0,0,0,20.947V23a1,1,0,0,0,1,1H3.053a4.966,4.966,0,0,0,3.535-1.464L22.853,6.271A3.626,3.626,0,0,0,22.853,1.148ZM5.174,21.122A3.022,3.022,0,0,1,3.053,22H2V20.947a2.98,2.98,0,0,1,.879-2.121L15.222,6.483l2.3,2.3ZM21.438,4.857,18.932,7.364l-2.3-2.295,2.507-2.507a1.623,1.623,0,1,1,2.295,2.3Z"/>
                   </svg>
@@ -93,7 +114,7 @@ const newNote = function(id, content, time,  date) {
                      </svg>     
                   </button>
             </div>
-         </div>          
+         </li>          
       `);
    };
 
@@ -127,17 +148,19 @@ const newNote = function(id, content, time,  date) {
 
    const infoWhenDeletingNoteFunction = function() {
       if(selectedNotesForRemoval.length > 0) {
-         infoWhenDeletingNote.querySelector('.notes-selected-number').textContent = selectedNotesForRemoval.length <= 1 ? `${selectedNotesForRemoval.length} item selected` : `${selectedNotesForRemoval.length} items selected`;
+         infoWhenDeletingNote.querySelector('.notes-selected-number').textContent = selectedNotesForRemoval.length <= 1 ? `${selectedNotesForRemoval.length} note selected` : `${selectedNotesForRemoval.length} notes selected`;
 
          infoWhenDeletingNote.classList.remove('info-when-deleting-note-inactive');
 
-         homeDeleteNote.classList.remove('home-delete-note-inactive');
+         homeDeleteNote.classList.remove('home-action-button-inactive');
+         homeNewNote.classList.add('home-action-button-inactive');
       };
 
       if(selectedNotesForRemoval.length <= 0) {
          infoWhenDeletingNote.classList.add('info-when-deleting-note-inactive');
 
-         homeDeleteNote.classList.add('home-delete-note-inactive');
+         homeDeleteNote.classList.add('home-action-button-inactive');
+         homeNewNote.classList.remove('home-action-button-inactive');
       };
    }
 
@@ -150,7 +173,10 @@ const newNote = function(id, content, time,  date) {
 
          infoWhenDeletingNote.classList.add('info-when-deleting-note-inactive');
 
-         homeDeleteNote.classList.add('home-delete-note-inactive');
+         homeDeleteNote.classList.add('home-action-button-inactive');
+         homeNewNote.classList.remove('home-action-button-inactive');
+
+         searchInputActive();
    };
 
    
@@ -175,14 +201,42 @@ const newNote = function(id, content, time,  date) {
 
    };
 
+   const formatingEditSectionForNewNote = function() {
+      editNoteContent.innerText = '';
+
+      editNoteSection.querySelector('.edit-note-date').innerText = getCurrentTime();
+   }
+
+   let noteThatIsBeingEditedIndex;
+
+   const editNote = function(note) {
+      editNoteContent.innerText = note.content;
+      editNoteDate.innerText = updateDate(notes[noteThatIsBeingEditedIndex]);
+
+      editNoteContent.dataset.isNew = 'false';
+   };
+
+   const searchInputInactive = function() {
+      searchInput.setAttribute('readonly', 'readonly');
+      searchInput.classList.add('not-allowed');
+   }
+
+   const searchInputActive = function() {
+      searchInput.removeAttribute('readonly');
+      searchInput.classList.remove('not-allowed');
+   }
+
+
+   let selectedNote;
 
    homeSection.addEventListener('click', function(e) {
-      let selectedNote;
       
-      if(e.target.classList.contains('delete-note') || e.target.closest('.delete-note')) {
+      if(e.target.closest('.delete-note')) {
          const deleteNote = e.target.closest('.delete-note');
          deleteNote.classList.toggle('delete-note-inactive');
          deleteNote.classList.toggle('delete-note-active');
+
+         searchInputInactive();
 
          selectedNote = deleteNote.closest('.note-wrapper');
 
@@ -197,19 +251,138 @@ const newNote = function(id, content, time,  date) {
          infoWhenDeletingNoteFunction();
          
       };
+
+      if(e.target.closest('.close-search')) {
+         searchInput.value = '';
+         searchInputFunction();
+      };
+
+      if(e.target.closest('.edit-note') || e.target.closest('.note-and-date')) {
+
+         if(homeDeleteNote.classList.contains('home-action-button-inactive')) {
+            selectedNote = e.target.closest('.note-wrapper');
+   
+            const targetedNote = notes.find(note => note.id === e.target.closest('.note-wrapper').id);
+            const indexOfTargetedNote = notes.indexOf(targetedNote);
+   
+            noteThatIsBeingEditedIndex = indexOfTargetedNote;
+   
+            editNote(notes[indexOfTargetedNote]);
+   
+   
+            activeSection = editNoteSection;
+            toggleSectionVisibility();
+         }
+
+      };
   
-      if(e.target.classList.contains('cancel-note-deleting') || e.target.closest('.cancel-note-deleting')) {
+      if(e.target.closest('.cancel-note-deleting')) {
          noNotesSelected();
       }
-      console.log(e.target)
 
-      if(e.target.classList.contains('home-delete-note') || e.target.closest('.home-delete-note')) {
+      if(e.target.closest('.home-delete-note') && !e.target.closest('.home-delete-note').classList.contains('home-action-button-inactive')) {
          deleteSelectedNotes();
-         console.log('uu')
+      }
+
+      if(e.target.closest('.home-new-note') && !e.target.closest('.home-new-note').classList.contains('home-action-button-inactive')) {
+         editNoteContent.dataset.isNew = 'true';
+
+         formatingEditSectionForNewNote();
+
+         activeSection = editNoteSection;
+         toggleSectionVisibility();
       }
 
    });
 
+   editNoteSection.addEventListener('click', function(e) {
+      if(e.target.closest('.edit-note-finish-edit') || e.target.closest('.edit-note-close-button')) {
+
+         activeSection = homeSection;
+         toggleSectionVisibility();
+
+         if(editNoteContent.innerText.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
+
+            const notesArrayItsEmpty = notes.length > 0;
+
+            const newNoteId = notesArrayItsEmpty ? (Number(notes[notes.length - 1].id) + 1).toString() : '0';
+
+            newNote(newNoteId, editNoteContent.innerText, editNoteDate.innerText,  getDate());
+
+            notesMarkup(notes[notes.length - 1], getCurrentTime());
+         }
+
+         if(editNoteContent.dataset.isNew === 'false') {
+            activeSection = homeSection;
+            toggleSectionVisibility();
+
+            if(editNoteContent.innerText.trim() !== notes[noteThatIsBeingEditedIndex].content) {
+               notes[noteThatIsBeingEditedIndex].content = editNoteContent.innerText;
+               notes[noteThatIsBeingEditedIndex].time = getCurrentTime();
+               notes[noteThatIsBeingEditedIndex].date = getDate();
+
+               
+               selectedNote.remove();
+               notesMarkup(notes[noteThatIsBeingEditedIndex], updateDate(notes[noteThatIsBeingEditedIndex]));
+
+               let editedNote = notes[noteThatIsBeingEditedIndex];
+               notes = notes.filter(note => note.id !== notes[noteThatIsBeingEditedIndex].id);
+               notes.unshift(editedNote);
+            }
+         }
+      }
+   });
+
+
+   const searchInput = document.querySelector('.search-input');
+   let query;
+   let filteredSearchResults;
+
+   const checkSearchQueryLength = function() {
+      query = searchInput.value.toLowerCase();
+
+      if(query.length > 0) {
+         searchMessage.classList.remove('hidden');
+         closeSearch.classList.remove('hidden');
+         homeActions.classList.add('hidden');
+      } else if(query.length <= 0) {
+         searchMessage.classList.add('hidden');
+         closeSearch.classList.add('hidden');
+         homeActions.classList.remove('hidden');
+      };
+
+   };
+
+   const filterSearchResults = function() {
+      filteredSearchResults = notes.filter((character) => {
+         return character.content.toLowerCase().includes(query);
+      });
+
+      if(filteredSearchResults.length < 1) searchMessageText.innerText = 'No note was found.';
+      if(filteredSearchResults.length > 1) searchMessageText.innerText = `${filteredSearchResults.length} notes were found.`;
+      if(filteredSearchResults.length === 1) searchMessageText.innerText = '1 note was found.';
+   }
+
+   const displaySearchResults = function () {
+      notesContainer.innerHTML = "";
+
+      for(let i = 0; i < filteredSearchResults.length; i++) {
+         let date = updateDate(filteredSearchResults[i]);
+         notesMarkup(filteredSearchResults[i], date);
+         console.log(filteredSearchResults[i]);
+      };
+   }
+
+   const searchInputFunction = function() {
+      console.log(searchInput.value)
+      checkSearchQueryLength();
+
+      filterSearchResults();
+      
+      displaySearchResults();
+   };
+
+   searchInput.addEventListener('input', searchInputFunction);
 
 
 

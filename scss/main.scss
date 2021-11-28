@@ -76,6 +76,14 @@ span, a {
     display: inline-block;
 }
 
+.hidden {
+    display: none !important;
+}
+
+.not-allowed {
+    cursor: not-allowed;
+}
+
 .nav {
     @include flex-align-center();
     height: $nav-height;
@@ -87,12 +95,43 @@ span, a {
     }
 }
 
-.search {
-    position: relative;
+.search-wrapper {
+    @include flex(row, center, null);
+    gap: 3rem;
     width: 100%;
+    margin-top: 3rem;
+
+    .close-search {
+        cursor: pointer;
+        position: relative;
+        border-radius: 50%;
+        padding: .5rem;
+
+        &::after {
+            @include tooltip('close', 5rem, 3rem)
+        }
+
+        &:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        &:hover {
+            background: $secondary-color-3;
+        }
+
+        svg {
+            width: 2.1rem;
+            height: 2.1rem;
+        }
+    }
+}
+
+.search {
+    width: 100%;
+    position: relative;
     border-radius: 10rem;
     height: 5rem;
-    margin-top: 3rem;
 
     &-icon {
         position: absolute;
@@ -115,12 +154,26 @@ span, a {
         background: #F5F5F5;
         border-radius: 10rem;
         padding: 0 2rem 0 4rem;
+        font-size: $regular-font-size;
+        color: $primary-color-1;
 
         &::placeholder {
             font-size: 1.5rem;
             color: $primary-color-2;
             font-weight: 400;
         }
+    }
+}
+
+.search-message {
+    width: 100%;
+    padding: 3rem 0;
+    border-bottom: 1px solid #e9e9e9;
+
+    p {
+        font-size: $regular-font-size;
+        color: $primary-color-1;
+        font-weight: 600
     }
 }
 
@@ -210,16 +263,20 @@ span, a {
             fill: $primary-color-1;
         }
     }
+
+    &-inactive svg path {
+        fill: $primary-color-2;
+    }
+
+    &-inactive {
+        cursor: not-allowed;
+    }
 }
 
 .home-delete-note {
     &::after {
         @include flex-align-justify-center();
         @include tooltip("Delete", 5rem, 3rem);
-    }
-
-    &-inactive svg path {
-        fill: $primary-color-2;
     }
 }
 
@@ -238,6 +295,7 @@ span, a {
     
 .note-wrapper {
     width: 100%;
+    list-style-type: none;
 
     .edit-note {
         font-size: $small-font-size;
@@ -357,51 +415,43 @@ span, a {
 }
 
 .edit-note-finish-edit {
-    &:hover {
-        background: $secondary-color-3;
-    }
-
-    svg {
-        path {
-            stroke: $primary-color-1;
-        }
-    }
-}
-
-.edit-note-finish-edit,
-.edit-note-new-button {
     border-radius: .5rem;
+    background: $secondary-color-2;
+    color: $secondary-color-1;
 
     svg {
         width: 1.4rem;
         margin-left: .5rem;
+
+        path {
+            stroke: $secondary-color-1;
+        }
     }
 }
 
 .edit-note-close-button {
     border-radius: 50%;
+    position: relative;
+
+    &::after {
+        @include tooltip('Go back', 5rem , 3rem);
+    }
 
     &:hover {
         background: $secondary-color-3;
     }
 
+    &:hover::after {
+        opacity: 1;
+        visibility: visible;
+    }
+
     svg {
 
-        width: 2.5rem;
+        width: 2.3rem;
 
         path {
             fill: $primary-color-1;
-        }
-    }
-}
-
-.edit-note-new-button {
-    background: $secondary-color-2;
-    color: $secondary-color-1;
-
-    svg {
-        path {
-            fill: $secondary-color-1;
         }
     }
 }
@@ -417,6 +467,7 @@ span, a {
     color: $primary-color-1;
     background: $secondary-color-1;
     box-shadow: $box-shadow;
+    line-height: 2.4rem;
     border-radius: 2rem;
     padding: 2rem;
 
