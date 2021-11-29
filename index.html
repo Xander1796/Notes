@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Notes App</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,9 +11,28 @@
     <script src="js/script.js" defer></script>
 </head>
 <body>
+    <div class="overlay hidden">
+       <div class="popup edit-permission-popup">
+           <p>Keep the changes?</p>
+           <div class="edit-permission-popup-actions">
+               <button class="edit-permission-popup-button edit-permission-popup-button-yes">Yes</button>
+               <div class="buttons-delimitator"></div>
+               <button class="edit-permission-popup-button edit-permission-popup-button-discard">Discard</button>
+           </div>
+       </div>
+    </div>
+
     <header>
         <nav class="nav">
-            <span class="nav-logo">Notes</span>
+            <div class="nav-logo">
+                <span class="nav-logo-text">Notes</span>
+                <svg class="nav-logo-line" viewBox="0 0 71 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 12H59" stroke="#5757FB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>    
+                <svg class="nav-logo-pen" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.4265 0.530032C11.0866 0.19063 10.6259 0 10.1455 0C9.66515 0 9.20443 0.19063 8.86451 0.530032L0.732507 8.66203C0.499633 8.8936 0.314989 9.16904 0.189257 9.47243C0.0635245 9.77581 -0.000798988 10.1011 7.49061e-06 10.4295V11.456C7.49061e-06 11.5886 0.0526859 11.7158 0.146454 11.8096C0.240222 11.9034 0.367399 11.956 0.500007 11.956H1.52651C1.85489 11.957 2.18019 11.8927 2.48359 11.7671C2.78698 11.6414 3.06243 11.4569 3.29401 11.224L11.4265 3.09153C11.7658 2.75163 11.9563 2.29101 11.9563 1.81078C11.9563 1.33055 11.7658 0.869934 11.4265 0.530032V0.530032ZM2.58701 10.517C2.30501 10.7972 1.92399 10.9549 1.52651 10.956H1.00001V10.4295C0.999501 10.2325 1.03809 10.0373 1.11353 9.85526C1.18897 9.67322 1.29976 9.50796 1.43951 9.36903L7.61101 3.19753L8.76101 4.34753L2.58701 10.517ZM10.719 2.38453L9.46601 3.63803L8.31601 2.49053L9.56951 1.23703C9.64502 1.16169 9.73463 1.10195 9.83322 1.06124C9.93182 1.02052 10.0375 0.999626 10.1441 0.999743C10.2508 0.999859 10.3564 1.02098 10.4549 1.06191C10.5534 1.10284 10.6429 1.16277 10.7183 1.23828C10.7936 1.31379 10.8533 1.4034 10.8941 1.502C10.9348 1.60059 10.9557 1.70624 10.9555 1.81292C10.9554 1.91959 10.9343 2.02519 10.8934 2.1237C10.8524 2.2222 10.7925 2.31169 10.717 2.38703L10.719 2.38453Z" fill="#171738"/>
+                </svg>                                
+            </div>
         </nav>
     </header>
 
@@ -63,6 +80,11 @@
                 </div>
             </div>
 
+            <div class="no-notes-message hidden">
+                <img src="svgs/no-notes.svg" alt="">
+                <h2>Wow! <span>So empty.</span></h2>
+            </div>
+
             <ul id="notes-container">
                 <!-- <div class="note-wrapper">
                     <button class="edit-note">
@@ -87,7 +109,7 @@
             </ul>
         </section>
 
-        <section id="edit-note">
+        <section id="edit-note" class="hidden">
             <div class="edit-note-navigation">
                 <div class="edit-note-navigation-buttons">
                     <button class="edit-note-navigation-button edit-note-close-button">
@@ -109,5 +131,16 @@
             <div contenteditable="true" class="edit-note-content" data-is-new>Hello there, this is your first edit.</div>
         </section>
     </main>
+
+    <footer>
+        <p>Made by Albici Alexandru</p>
+        <div class="social-icons">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.11554,5.90131a3.88274,3.88274,0,0,0-.26-.31,4.41253,4.41253,0,0,0,.21-.76,5.28351,5.28351,0,0,0-.35-2.8s-1.12-.35-3.69,1.38a12.47675,12.47675,0,0,0-3.35-.45,12.60429,12.60429,0,0,0-3.36.45c-2.57-1.75-3.69-1.38-3.69-1.38a5.26343,5.26343,0,0,0-.35,2.77,4.21027,4.21027,0,0,0,.22.79c-.09.1-.18.21-.26.31a5.13973,5.13973,0,0,0-1.12,3.3,7.68624,7.68624,0,0,0,.04.85c.31994,4.43,3.27,5.46,6.08,5.78a2.55759,2.55759,0,0,0-.77,1.39,4.02183,4.02183,0,0,0-.13,1.09v1.30957c-1.11822.09937-2.26648-.06335-2.62219-1.06134a5.69461,5.69461,0,0,0-1.83447-2.41211,1.1789,1.1789,0,0,1-.169-.1123,1.00141,1.00141,0,0,0-.93066-.64551H3.77441a.99965.99965,0,0,0-1,.99512c-.0039.8125.80909,1.33691,1.14258,1.51562a4.4665,4.4665,0,0,1,.92285,1.3584c.36426,1.02344,1.4292,2.57812,4.46582,2.376.001.03515.002.06835.00245.09863l.00439.26758a.99974.99974,0,0,0,1,1l.00311-.00061V23.001h4.71112a.99974.99974,0,0,0,1-1s.00733-3.15967.00733-3.68964a4.02421,4.02421,0,0,0-.13-1.09l-.00183-.0061.00336.0061c-.00861-.035-.02173-.06353-.03113-.09747A2.53213,2.53213,0,0,0,15.134,15.8313l.0116.02087c-.00684-.00616-.01324-.01489-.02008-.02087,2.81-.32,5.74-1.37,6.06-5.78a7.68675,7.68675,0,0,0,.04-.85A5.2306,5.2306,0,0,0,20.11554,5.90131Z"/>
+            </svg>
+
+            <svg class="social-icon"  xmlns="http://www.w3.org/2000/svg" viewBox="0 5 1036 990"><path d="M0 120c0-33.334 11.667-60.834 35-82.5C58.333 15.833 88.667 5 126 5c36.667 0 66.333 10.666 89 32 23.333 22 35 50.666 35 86 0 32-11.333 58.666-34 80-23.333 22-54 33-92 33h-1c-36.667 0-66.333-11-89-33S0 153.333 0 120zm13 875V327h222v668H13zm345 0h222V622c0-23.334 2.667-41.334 8-54 9.333-22.667 23.5-41.834 42.5-57.5 19-15.667 42.833-23.5 71.5-23.5 74.667 0 112 50.333 112 151v357h222V612c0-98.667-23.333-173.5-70-224.5S857.667 311 781 311c-86 0-153 37-201 111v2h-1l1-2v-95H358c1.333 21.333 2 87.666 2 199 0 111.333-.667 267.666-2 469z"/>
+            </svg>
+        </div>
+    </footer>
 </body>
 </html>

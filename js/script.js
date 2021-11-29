@@ -17,6 +17,7 @@ const homeDeleteNote = document.querySelector('.home-delete-note');
 const homeNewNote = document.querySelector('.home-new-note');
 const homeActionButton = document.querySelectorAll('.home-action-button');
 const infoWhenDeletingNote = document.querySelector('.info-when-deleting-note');
+const noNotesMessage = document.querySelector('.no-notes-message');
 const editNoteSection = document.querySelector('#edit-note');
 const editNoteContent = document.querySelector('.edit-note-content');
 const editNoteDate = document.querySelector('.edit-note-date');
@@ -26,11 +27,13 @@ const sections = [homeSection, editNoteSection];
 let activeSection = homeSection;
 
 const toggleSectionVisibility = function() {
-   sections.forEach(section => section.classList.add('hidden'));
+   sections.forEach((section) => {
+      section.classList.remove('hidden');
+      section.classList.add('hidden');
+   });
    activeSection.classList.remove('hidden');
+   activeSection.classList.add('visible');
 }
-
-toggleSectionVisibility();
 
 
 const getCurrentTime = function() {
@@ -57,32 +60,17 @@ const updateDate = function(note) {
 
 let notes = [{
    id: '0',
-   content: "Hello there, this is your first note.",
+   content: "Hello there, I hope you enjoy my app.",
    time: getCurrentTime(),
    date: getDate(),
    isBeingEdited: false,
-},
-{
-   id: '1',
-   content: "Hello there, this is your second note.",
-   time: getCurrentTime(),
-   date: getDate(),
-   isBeingEdited: false, 
-},
-
-{
-   id: '2',
-   content: "Hello there, this is your third note.",
-   time: getCurrentTime(),
-   date: getDate(),
-   isBeingEdited: false, 
 }
 ]
 
 let selectedNotesForRemoval = [];
 
       
-const newNote = function(id, content, time,  date) {
+const newNoteObject = function(id, content, time,  date) {
    notes.push ({
       id: id,
       content: content,
@@ -179,6 +167,21 @@ const newNote = function(id, content, time,  date) {
          searchInputActive();
    };
 
+   const checkIfThereAreNotes = function() {
+      if(notes.length === 0) {
+         noNotesMessage.classList.add('visible');
+         noNotesMessage.classList.remove('hidden');
+      } else {
+         noNotesMessage.classList.remove('visible');
+         noNotesMessage.classList.add('hidden');
+      }
+
+      if(searchInput.value !== "" && notes.length === 0) {
+         noNotesMessage.classList.remove('visible');
+         noNotesMessage.classList.add('hidden');
+      }
+   };
+
    
    const deleteSelectedNotes = function() {
       const allNotes = notesContainer.querySelectorAll('.note-wrapper');
@@ -192,8 +195,14 @@ const newNote = function(id, content, time,  date) {
          };
 
          for(let k = 0; k < allNotes.length; k++) {
-            if(selectedNotesForRemoval[i] === allNotes[k].id) allNotes[k].remove();
-         }
+            if(selectedNotesForRemoval[i] === allNotes[k].id) {
+               allNotes[k].style.visibility = 'hidden';
+               allNotes[k].style.marginTop = `-${allNotes[k].getBoundingClientRect().height}px`;
+               allNotes[k].addEventListener('transitionend', function() {
+                  allNotes[k].remove();
+               });
+            };
+         };
 
       };
 
@@ -209,7 +218,7 @@ const newNote = function(id, content, time,  date) {
 
    let noteThatIsBeingEditedIndex;
 
-   const editNote = function(note) {
+   const isBeingEdited = function(note) {
       editNoteContent.innerText = note.content;
       editNoteDate.innerText = updateDate(notes[noteThatIsBeingEditedIndex]);
 
@@ -225,6 +234,18 @@ const newNote = function(id, content, time,  date) {
       searchInput.removeAttribute('readonly');
       searchInput.classList.remove('not-allowed');
    }
+
+   const animationForNewOrEditedNote = function() {
+      const targetedNote = notesContainer.querySelectorAll('.note-and-date')[0];
+      console.log(targetedNote)
+      if(targetedNote) {
+         targetedNote.classList.add('new-or-edited-note-anim');
+
+         targetedNote.addEventListener('animationend', function() {
+            targetedNote.classList.remove('new-or-edited-note-anim');
+         })
+      };
+   };
 
 
    let selectedNote;
@@ -267,7 +288,7 @@ const newNote = function(id, content, time,  date) {
    
             noteThatIsBeingEditedIndex = indexOfTargetedNote;
    
-            editNote(notes[indexOfTargetedNote]);
+            isBeingEdited(notes[indexOfTargetedNote]);
    
    
             activeSection = editNoteSection;
@@ -282,6 +303,8 @@ const newNote = function(id, content, time,  date) {
 
       if(e.target.closest('.home-delete-note') && !e.target.closest('.home-delete-note').classList.contains('home-action-button-inactive')) {
          deleteSelectedNotes();
+
+         checkIfThereAreNotes();
       }
 
       if(e.target.closest('.home-new-note') && !e.target.closest('.home-new-note').classList.contains('home-action-button-inactive')) {
@@ -295,48 +318,94 @@ const newNote = function(id, content, time,  date) {
 
    });
 
-   editNoteSection.addEventListener('click', function(e) {
-      if(e.target.closest('.edit-note-finish-edit') || e.target.closest('.edit-note-close-button')) {
+   const editNote = function() {
+      notes[noteThatIsBeingEditedIndex].content = editNoteContent.innerText;
+      notes[noteThatIsBeingEditedIndex].time = getCurrentTime();
+      notes[noteThatIsBeingEditedIndex].date = getDate();
 
+      
+      selectedNote.remove();
+      notesMarkup(notes[noteThatIsBeingEditedIndex], updateDate(notes[noteThatIsBeingEditedIndex]));
+
+      let editedNote = notes[noteThatIsBeingEditedIndex];
+      notes = notes.filter(note => note.id !== notes[noteThatIsBeingEditedIndex].id);
+      notes.unshift(editedNote);
+
+      animationForNewOrEditedNote();
+   };
+
+   const newNote = function() {
+      const notesArrayItsEmpty = notes.length > 0;
+
+      const newNoteId = notesArrayItsEmpty ? (Number(notes[notes.length - 1].id) + 1).toString() : '0';
+
+      newNoteObject(newNoteId, editNoteContent.innerText, editNoteDate.innerText,  getDate());
+
+      checkIfThereAreNotes();
+
+      notesMarkup(notes[notes.length - 1], getCurrentTime());
+      
+      animationForNewOrEditedNote();
+   };
+
+   editNoteSection.addEventListener('click', function(e) {
+      
+      if(e.target.closest('.edit-note-close-button')) {
+
+         if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerText.trim() !== notes[noteThatIsBeingEditedIndex].content) {
+            document.querySelector('.overlay').classList.remove('hidden');
+         };
+
+         if(editNoteContent.innerText.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
+            document.querySelector('.overlay').classList.remove('hidden');
+         };
+      }; 
+      
+      if(e.target.closest('.edit-note-finish-edit')) {
          activeSection = homeSection;
          toggleSectionVisibility();
 
          if(editNoteContent.innerText.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
-
-            const notesArrayItsEmpty = notes.length > 0;
-
-            const newNoteId = notesArrayItsEmpty ? (Number(notes[notes.length - 1].id) + 1).toString() : '0';
-
-            newNote(newNoteId, editNoteContent.innerText, editNoteDate.innerText,  getDate());
-
-            notesMarkup(notes[notes.length - 1], getCurrentTime());
+            newNote();
          }
 
-         if(editNoteContent.dataset.isNew === 'false') {
-            activeSection = homeSection;
-            toggleSectionVisibility();
+         if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerText.trim() !== notes[noteThatIsBeingEditedIndex].content) {
+            editNote()
+         } 
 
-            if(editNoteContent.innerText.trim() !== notes[noteThatIsBeingEditedIndex].content) {
-               notes[noteThatIsBeingEditedIndex].content = editNoteContent.innerText;
-               notes[noteThatIsBeingEditedIndex].time = getCurrentTime();
-               notes[noteThatIsBeingEditedIndex].date = getDate();
+      };
 
-               
-               selectedNote.remove();
-               notesMarkup(notes[noteThatIsBeingEditedIndex], updateDate(notes[noteThatIsBeingEditedIndex]));
-
-               let editedNote = notes[noteThatIsBeingEditedIndex];
-               notes = notes.filter(note => note.id !== notes[noteThatIsBeingEditedIndex].id);
-               notes.unshift(editedNote);
-            }
-         }
-      }
    });
+
+   document.querySelector('.overlay').addEventListener('click', function(e) {
+      if(e.target.closest('.edit-permission-popup-button-yes')) {
+         if(editNoteContent.dataset.isNew === 'true') {
+            newNote();
+         } else {
+            editNote();
+         };
+      }
+
+      if(e.target.closest('.edit-permission-popup-button')) {
+         this.classList.add('hidden');
+         activeSection = homeSection;
+         toggleSectionVisibility();
+      };
+   })
 
 
    const searchInput = document.querySelector('.search-input');
    let query;
    let filteredSearchResults;
+
+   const hideDeleteButtonsWhenSearching = function(query) {
+      const allDeleteButtons = [...notesContainer.querySelectorAll('.delete-note')];
+      if(query.length > 0) {
+         allDeleteButtons.forEach(button => button.classList.add('hidden'));
+      } else {
+         allDeleteButtons.forEach(button => button.classList.remove('hidden'));         
+      }
+   };
 
    const checkSearchQueryLength = function() {
       query = searchInput.value.toLowerCase();
@@ -374,15 +443,19 @@ const newNote = function(id, content, time,  date) {
    }
 
    const searchInputFunction = function() {
-      console.log(searchInput.value)
+      checkIfThereAreNotes();
+
       checkSearchQueryLength();
 
       filterSearchResults();
       
       displaySearchResults();
+
+      hideDeleteButtonsWhenSearching(query);
    };
 
    searchInput.addEventListener('input', searchInputFunction);
+
 
 
 

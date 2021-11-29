@@ -1,4 +1,4 @@
-$orizontal-padding: 60rem;
+$section-width: 70rem;
 $box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .1);
 $regular-font-size: 1.7rem;
 $small-font-size: 1.3rem;
@@ -48,6 +48,26 @@ $nav-height: 7rem;
     visibility: hidden;
 }
 
+@mixin popup() {
+    @include flex(column, null, center);
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    padding: 1rem;
+    background: $secondary-color-1;
+    border-radius: .5rem;
+    transform: translate(-50%, -5%);
+    opacity: 0;
+    animation: popup-anim .3s ease forwards;
+}
+
+@keyframes popup-anim {
+    100% {
+        transform: translate(-50%, 0%);
+        opacity: 1;
+    }
+}
+
 *,
 *::after,
 *::before {
@@ -62,8 +82,7 @@ html {
 }
 
 body {
-    padding: 0 $orizontal-padding;
-    background: #FAFAFA;
+    background-color: #FAFAFA;
 }
 
 button {
@@ -80,18 +99,155 @@ span, a {
     display: none !important;
 }
 
+.visible {
+    animation: visible-anim .3s ease forwards;
+}
+
+@keyframes visible-anim {
+    0% {
+        display: none;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    1% {
+        display: inline-block;
+        opacity: 0;
+        visibility: hidden;            
+    }
+
+    100% {
+        display: inline-block;
+        opacity: 1;
+        visibility: visible;            
+    }
+}
+
+
 .not-allowed {
     cursor: not-allowed;
 }
 
-.nav {
-    @include flex-align-center();
-    height: $nav-height;
+section {
+    transition: .2s ease all
+}
 
-    &-logo {
+section, nav {
+    margin: 0 auto;
+    width: $section-width;
+}
+
+.overlay {
+    position: absolute;
+    background: rgba(0, 0, 0, .2);
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 100;
+
+    .popup {
+        @include popup();
+    }
+}
+
+.edit-permission-popup {
+    p {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: $primary-color-1;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.edit-permission-popup-actions {
+    @include flex(row, center, space-around);
+
+    .buttons-delimitator {
+        width: 1px;
+        height: 1.5rem;
+        background: #cdcdcd;
+    }
+
+    button {
+        color: #4d4dc1;
+        font-weight: 600;
+        font-size: $regular-font-size;
+        cursor: pointer;
+        padding: .5rem 1rem;
+        border-radius: .5rem;
+
+        &:hover {
+            background: rgba(77, 77, 193, 0.05);
+        }
+
+        &:first-of-type {
+            margin-right: 1rem;
+        }
+    }
+}
+
+.nav {
+    @include flex(row, center, null);
+    height: $nav-height;
+}
+
+.nav-logo {
+    width: 8.2rem;
+    @include flex(row, flex-start, null);
+    position: relative;
+    overflow: hidden;
+
+    &-text {
+        position: relative;
+        bottom: 10rem;
         color: $primary-color-1;
         font-weight: 700;
-        font-size: 3rem;
+        font-size: 2.3rem;
+        animation: nav-logo-text-anim .5s .5s forwards;
+    }
+
+    &-line {
+        width: inherit;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+
+        path {
+            stroke-dasharray: 58;
+            stroke-dashoffset: 58;
+            animation: nav-logo-line-anim 1s forwards;
+        }
+    }
+
+    &-pen {
+        position: absolute;
+        bottom: 1px;
+        width: 1.6rem;
+        animation: nav-logo-pen-anim 1s forwards;
+        left: 0;
+    }
+}
+
+@keyframes nav-logo-text-anim {
+    0% {
+        bottom: -10rem;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+@keyframes nav-logo-line-anim {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes nav-logo-pen-anim {
+    100% {
+        transform: translateX(6.6rem)
     }
 }
 
@@ -151,11 +307,17 @@ span, a {
         height: 100%;
         border: none;
         outline: none;
-        background: #F5F5F5;
+        background: $secondary-color-1;
+        box-shadow: $box-shadow;
         border-radius: 10rem;
         padding: 0 2rem 0 4rem;
         font-size: $regular-font-size;
         color: $primary-color-1;
+
+        &:focus {
+            outline: 1px solid rgba(0, 0, 0, .4);
+            box-shadow: none;
+        }
 
         &::placeholder {
             font-size: 1.5rem;
@@ -174,6 +336,28 @@ span, a {
         font-size: $regular-font-size;
         color: $primary-color-1;
         font-weight: 600
+    }
+}
+
+.no-notes-message {
+    @include flex(column, center, center);
+    width: 100%;
+    margin-top: 5rem;
+
+    img {
+        width: 30rem;
+        height: auto;
+    }
+
+    h2 {
+        margin-top: 3rem;
+        font-size: 2.4rem;
+        color: #bbbbbb;
+
+        span {
+            font-weight: 400;
+            color: $primary-color-1;
+        }
     }
 }
 
@@ -289,13 +473,17 @@ span, a {
     @include flex-align-center();
     justify-content: space-between;
     flex-direction: column;
-    gap: 3rem;
-    margin-top: 3rem;
 }
     
 .note-wrapper {
     width: 100%;
     list-style-type: none;
+    transition: .4s ease margin;
+    margin-top: 3rem;
+
+    &:last-of-type {
+        margin-bottom: 8rem;
+    }
 
     .edit-note {
         font-size: $small-font-size;
@@ -320,20 +508,20 @@ span, a {
     }
 
     .note {
-        @include flex-align-center();
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: minmax(94%, 100%) 1fr;
+        align-items: center;
         width: 100%;
         margin-top: 1rem;
     }
 
     .note-and-date {
         cursor: pointer;
-        width: 95%;
         box-shadow: $box-shadow;
         background: $secondary-color-1;
         border-radius: 2rem;
         padding: 1rem;
-
+        min-width: 94%;
 
         &:active {
             background: $secondary-color-3;
@@ -353,12 +541,27 @@ span, a {
         }
     }
 
+    .new-or-edited-note-anim {
+        animation: new-or-edited-note-anim 1.2s forwards;
+    }
+
+    @keyframes new-or-edited-note-anim {
+        0% {
+            background: #e5e5e5;
+        }
+
+        100% {
+            background: $secondary-color-1;
+        }
+    }
+
     .delete-note {
         @include flex-align-justify-center();
-        width: 2.2rem;
+        min-width: 2.2rem;
         height: 2.2rem;
         cursor: pointer;
         border-radius: .5rem;
+        margin-left: 2rem;
         
         svg {
             width: 1.4rem;
@@ -391,6 +594,7 @@ span, a {
         stroke-dashoffset: 0;
     }
 }
+
 
 .edit-note-navigation {
     @include flex(row, center, space-between);
@@ -474,6 +678,46 @@ span, a {
     &:focus {
         border: none;
         outline: none;
+    }
+}
+
+footer {
+    @include flex(row, center, space-between);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    border-top: 1px solid #e9e9e9;
+    background: #FAFAFA;
+    width: 100vw;
+    padding: 2rem 60rem;
+
+    p {
+        font-size: $regular-font-size;
+        color: $primary-color-1;
+    }
+}
+
+.social-icons {
+    @include flex(row, center, null);
+
+    .social-icon {
+        width: 1.7rem;
+        cursor: pointer;
+
+        &:hover {
+            path {
+                fill: $primary-color-1;
+                transition: .3s ease fill;
+            }
+        }
+
+        &:first-of-type {
+            margin-right: 2.5rem;
+        }
+
+        path {
+            fill: $primary-color-2;
+        }
     }
 }
 
