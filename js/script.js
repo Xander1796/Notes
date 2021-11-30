@@ -125,6 +125,16 @@ const newNoteObject = function(id, content, time,  date) {
    });
 };
 
+const checkIfThereAreLineBreaks = function(note) {
+   if(note.content.includes('<div>')) {
+      return note.content.substring(0, note.content.indexOf('<div>'));
+   } else if(note.content.includes('<br>')) {
+      return note.content.substring(0, note.content.indexOf('<br>'));   
+   } else {
+      return note.content;
+   };
+};
+
 
    const notesMarkup = function (note, date) {
       notesContainer.insertAdjacentHTML('afterbegin', `
@@ -137,7 +147,7 @@ const newNoteObject = function(id, content, time,  date) {
          
             <div class="note">
                   <div class="note-and-date">
-                     <p class="note-content">${note.content}</p>
+                     <p class="note-content">${checkIfThereAreLineBreaks(note)}</p>
                      <span class="note-date">${date}</span>
                   </div>
 
@@ -244,16 +254,16 @@ const newNoteObject = function(id, content, time,  date) {
 
 
    const formatingEditSectionForNewNote = function() {
-      editNoteContent.innerText = '';
+      editNoteContent.innerHTML = '';
 
-      editNoteSection.querySelector('.edit-note-date').innerText = getCurrentTime();
+      editNoteSection.querySelector('.edit-note-date').innerHTML = getCurrentTime();
    }
 
    let noteThatIsBeingEditedIndex;
 
    const isBeingEdited = function(note) {
-      editNoteContent.innerText = note.content;
-      editNoteDate.innerText = updateDate(notes[noteThatIsBeingEditedIndex]);
+      editNoteContent.innerHTML = note.content;
+      editNoteDate.innerHTML = updateDate(notes[noteThatIsBeingEditedIndex]);
 
       editNoteContent.dataset.isNew = 'false';
    };
@@ -352,7 +362,7 @@ const newNoteObject = function(id, content, time,  date) {
    });
 
    const editNote = function() {
-      notes[noteThatIsBeingEditedIndex].content = editNoteContent.innerText;
+      notes[noteThatIsBeingEditedIndex].content = editNoteContent.innerHTML;
       notes[noteThatIsBeingEditedIndex].time = getCurrentTime();
       notes[noteThatIsBeingEditedIndex].date = getDate();
 
@@ -374,7 +384,7 @@ const newNoteObject = function(id, content, time,  date) {
 
       const newNoteId = notesArrayItsEmpty ? (Number(notes[notes.length - 1].id) + 1).toString() : '0';
 
-      newNoteObject(newNoteId, editNoteContent.innerText, editNoteDate.innerText,  getDate());
+      newNoteObject(newNoteId, editNoteContent.innerHTML, editNoteDate.innerHTML,  getDate());
 
       checkIfThereAreNotes();
 
@@ -389,12 +399,12 @@ const newNoteObject = function(id, content, time,  date) {
       
       if(e.target.closest('.edit-note-close-button')) {
 
-         if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerText.trim() !== notes[noteThatIsBeingEditedIndex].content) {
+         if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerHTML.trim() !== notes[noteThatIsBeingEditedIndex].content) {
 
             overlay.classList.add('visible');
             overlay.classList.remove('hidden');
 
-         } else if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerText.trim() === notes[noteThatIsBeingEditedIndex].content) {
+         } else if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerHTML.trim() === notes[noteThatIsBeingEditedIndex].content) {
 
             activeSection = homeSection;
             toggleSectionVisibility();
@@ -402,12 +412,12 @@ const newNoteObject = function(id, content, time,  date) {
          };
          
 
-         if(editNoteContent.innerText.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
+         if(editNoteContent.innerHTML.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
 
             overlay.classList.add('visible');
             overlay.classList.remove('hidden');
 
-         } else if(editNoteContent.innerText.trim() === "" && editNoteContent.dataset.isNew === 'true') {
+         } else if(editNoteContent.innerHTML.trim() === "" && editNoteContent.dataset.isNew === 'true') {
 
             activeSection = homeSection;
             toggleSectionVisibility();
@@ -419,11 +429,11 @@ const newNoteObject = function(id, content, time,  date) {
          activeSection = homeSection;
          toggleSectionVisibility();
 
-         if(editNoteContent.innerText.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
+         if(editNoteContent.innerHTML.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
             newNote();
          }
 
-         if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerText.trim() !== notes[noteThatIsBeingEditedIndex].content) {
+         if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerHTML.trim() !== notes[noteThatIsBeingEditedIndex].content) {
             editNote()
          } 
 
@@ -486,9 +496,9 @@ const newNoteObject = function(id, content, time,  date) {
          return character.content.toLowerCase().includes(query);
       });
 
-      if(filteredSearchResults.length < 1) searchMessageText.innerText = 'No note was found.';
-      if(filteredSearchResults.length > 1) searchMessageText.innerText = `${filteredSearchResults.length} notes were found.`;
-      if(filteredSearchResults.length === 1) searchMessageText.innerText = '1 note was found.';
+      if(filteredSearchResults.length < 1) searchMessageText.innerHTML = 'No note was found.';
+      if(filteredSearchResults.length > 1) searchMessageText.innerHTML = `${filteredSearchResults.length} notes were found.`;
+      if(filteredSearchResults.length === 1) searchMessageText.innerHTML = '1 note was found.';
    }
 
    const displaySearchResults = function () {
@@ -514,6 +524,10 @@ const newNoteObject = function(id, content, time,  date) {
    };
 
    searchInput.addEventListener('input', searchInputFunction);
+
+
+
+
 
 
 
