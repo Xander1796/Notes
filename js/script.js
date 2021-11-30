@@ -5,8 +5,11 @@
 //    this.classList.toggle('delete-note-inactive')
 // });
 
+const  overlay = document.querySelector('.overlay');
+
 const notesContainer = document.querySelector('#notes-container');
 
+const searchInput = document.querySelector('.search-input');
 const searchMessage = document.querySelector('.search-message');
 const searchMessageText = document.querySelector('.search-message p');
 const closeSearch = document.querySelector('.close-search');
@@ -22,6 +25,81 @@ const editNoteSection = document.querySelector('#edit-note');
 const editNoteContent = document.querySelector('.edit-note-content');
 const editNoteDate = document.querySelector('.edit-note-date');
 
+//METHODS FOR DATE
+
+const getCurrentTime = function() {
+   const date = new Date();
+   
+   return `Today, ${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
+};
+
+
+const getDate = function() {
+   const date = new Date();
+   
+   return `${date.getDate()}.${Number(date.getMonth() + 1)}.${date.getFullYear()}`;
+};
+
+
+const updateDate = function(note) {
+   const date = getDate();
+
+   if(note.date === date){
+      return note.time;
+   } else {
+      return note.date;
+   };
+};
+
+
+//SETTING LOCAL STORAGE
+
+if(!localStorage.getItem('firstVisit')) {
+   localStorage.setItem('firstVisit', 'true');
+
+   const firstNote = [
+      {
+         id: "0", 
+         content: "Hello there, I hope you enjoy my app.", 
+         time: getCurrentTime(), 
+         date: getDate()
+      }
+   ];
+
+   localStorage.setItem('notesStorage', JSON.stringify(firstNote));
+
+} else {
+   localStorage.setItem('firstVisit', 'false');
+}
+
+let notesStorage = JSON.parse(localStorage.getItem('notesStorage'));
+
+
+let updateNotesStorage = function() {
+   localStorage.setItem('notesStorage', JSON.stringify(notes));
+};
+
+
+let notes = notesStorage;
+
+
+const checkIfThereAreNotes = function() {
+   if(notes.length === 0) {
+      noNotesMessage.classList.add('visible');
+      noNotesMessage.classList.remove('hidden');
+   } else {
+      noNotesMessage.classList.remove('visible');
+      noNotesMessage.classList.add('hidden');
+   }
+
+   if(searchInput.value !== "" && notes.length === 0) {
+      noNotesMessage.classList.remove('visible');
+      noNotesMessage.classList.add('hidden');
+   }
+};
+
+checkIfThereAreNotes();
+
 
 const sections = [homeSection, editNoteSection];
 let activeSection = homeSection;
@@ -35,38 +113,6 @@ const toggleSectionVisibility = function() {
    activeSection.classList.add('visible');
 }
 
-
-const getCurrentTime = function() {
-   const date = new Date();
-   
-   return `Today, ${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
-};
-
-const getDate = function() {
-   const date = new Date();
-   
-   return `${date.getDate()}.${Number(date.getMonth() + 1)}.${date.getFullYear()}`;
-};
-
-const updateDate = function(note) {
-   const date = getDate();
-
-   if(note.date === date){
-      return note.time;
-   } else {
-      return note.date;
-   };
-};
-
-let notes = [{
-   id: '0',
-   content: "Hello there, I hope you enjoy my app.",
-   time: getCurrentTime(),
-   date: getDate(),
-   isBeingEdited: false,
-}
-]
-
 let selectedNotesForRemoval = [];
 
       
@@ -75,8 +121,7 @@ const newNoteObject = function(id, content, time,  date) {
       id: id,
       content: content,
       time: time,
-      date: date,
-      isBeingEdited: false
+      date: date
    });
 };
 
@@ -106,15 +151,14 @@ const newNoteObject = function(id, content, time,  date) {
       `);
    };
 
-   const insertNotes = function() {
+   const initInsertNotes = function() {
       for(let i = 0; i < notes.length; i++) {
          let date = updateDate(notes[i]);
          notesMarkup(notes[i], date);
       }
    }
 
-   insertNotes();
-
+   initInsertNotes();
 
 
    const addNoteToRemovalArray = function(selectedNoteId) {
@@ -133,6 +177,7 @@ const newNoteObject = function(id, content, time,  date) {
       });
 
    };
+
 
    const infoWhenDeletingNoteFunction = function() {
       if(selectedNotesForRemoval.length > 0) {
@@ -167,22 +212,7 @@ const newNoteObject = function(id, content, time,  date) {
          searchInputActive();
    };
 
-   const checkIfThereAreNotes = function() {
-      if(notes.length === 0) {
-         noNotesMessage.classList.add('visible');
-         noNotesMessage.classList.remove('hidden');
-      } else {
-         noNotesMessage.classList.remove('visible');
-         noNotesMessage.classList.add('hidden');
-      }
-
-      if(searchInput.value !== "" && notes.length === 0) {
-         noNotesMessage.classList.remove('visible');
-         noNotesMessage.classList.add('hidden');
-      }
-   };
-
-   
+  
    const deleteSelectedNotes = function() {
       const allNotes = notesContainer.querySelectorAll('.note-wrapper');
 
@@ -191,6 +221,8 @@ const newNoteObject = function(id, content, time,  date) {
          for(let j = 0; j < notes.length; j++) {
             if(notes[j].id === selectedNotesForRemoval[i]) {
                notes.splice(j, 1);
+
+               updateNotesStorage();
             };
          };
 
@@ -209,6 +241,7 @@ const newNoteObject = function(id, content, time,  date) {
       noNotesSelected();
 
    };
+
 
    const formatingEditSectionForNewNote = function() {
       editNoteContent.innerText = '';
@@ -329,7 +362,9 @@ const newNoteObject = function(id, content, time,  date) {
 
       let editedNote = notes[noteThatIsBeingEditedIndex];
       notes = notes.filter(note => note.id !== notes[noteThatIsBeingEditedIndex].id);
-      notes.unshift(editedNote);
+      notes.push(editedNote);
+
+      updateNotesStorage();
 
       animationForNewOrEditedNote();
    };
@@ -344,6 +379,8 @@ const newNoteObject = function(id, content, time,  date) {
       checkIfThereAreNotes();
 
       notesMarkup(notes[notes.length - 1], getCurrentTime());
+
+      updateNotesStorage();
       
       animationForNewOrEditedNote();
    };
@@ -353,11 +390,28 @@ const newNoteObject = function(id, content, time,  date) {
       if(e.target.closest('.edit-note-close-button')) {
 
          if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerText.trim() !== notes[noteThatIsBeingEditedIndex].content) {
-            document.querySelector('.overlay').classList.remove('hidden');
+
+            overlay.classList.add('visible');
+            overlay.classList.remove('hidden');
+
+         } else if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerText.trim() === notes[noteThatIsBeingEditedIndex].content) {
+
+            activeSection = homeSection;
+            toggleSectionVisibility();
+
          };
+         
 
          if(editNoteContent.innerText.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
-            document.querySelector('.overlay').classList.remove('hidden');
+
+            overlay.classList.add('visible');
+            overlay.classList.remove('hidden');
+
+         } else if(editNoteContent.innerText.trim() === "" && editNoteContent.dataset.isNew === 'true') {
+
+            activeSection = homeSection;
+            toggleSectionVisibility();
+
          };
       }; 
       
@@ -377,7 +431,12 @@ const newNoteObject = function(id, content, time,  date) {
 
    });
 
-   document.querySelector('.overlay').addEventListener('click', function(e) {
+   overlay.addEventListener('click', function(e) {
+      if(e.target.classList.contains('overlay')) {
+         this.classList.remove('visible');
+         this.classList.add('hidden');
+      }
+
       if(e.target.closest('.edit-permission-popup-button-yes')) {
          if(editNoteContent.dataset.isNew === 'true') {
             newNote();
@@ -387,6 +446,7 @@ const newNoteObject = function(id, content, time,  date) {
       }
 
       if(e.target.closest('.edit-permission-popup-button')) {
+         this.classList.remove('visible');
          this.classList.add('hidden');
          activeSection = homeSection;
          toggleSectionVisibility();
@@ -394,7 +454,6 @@ const newNoteObject = function(id, content, time,  date) {
    })
 
 
-   const searchInput = document.querySelector('.search-input');
    let query;
    let filteredSearchResults;
 
