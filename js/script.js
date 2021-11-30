@@ -60,7 +60,7 @@ if(!localStorage.getItem('firstVisit')) {
    const firstNote = [
       {
          id: "0", 
-         content: "Hello there,<br> I hope you enjoy my app.", 
+         content: "Hello there, I hope you enjoy my app.", 
          time: getCurrentTime(), 
          date: getDate()
       }
@@ -126,17 +126,8 @@ const newNoteObject = function(id, content, time,  date) {
 };
 
 const checkIfThereAreLineBreaks = function(note) {
-   if(note.content.includes('<div>') && note.content.indexOf('<div>') === 0) { 
-      console.log('dwadwa')
-      return note.content.substring('<div>'.length, note.content.indexOf('</div>'));
-   } 
-   else if(note.content.includes('<div>') && note.content.indexOf('<div>') !== 0) {
-      return note.content.substring(0, note.content.indexOf('<div>'));
-   } else if(note.content.includes('<br>') && note.content.indexOf('<br>') !== 0) {
-      return note.content.substring(0, note.content.indexOf('<br>'));   
-   } else {
-      return note.content;
-   };
+      let cleanNote = note.content.replaceAll('<div>', ' ').replaceAll('</div>', ' ').replaceAll('<br>', ' ');
+      return cleanNote;
 };
 
 
@@ -284,7 +275,6 @@ const checkIfThereAreLineBreaks = function(note) {
 
    const animationForNewOrEditedNote = function() {
       const targetedNote = notesContainer.querySelectorAll('.note-and-date')[0];
-      console.log(targetedNote)
       if(targetedNote) {
          targetedNote.classList.add('new-or-edited-note-anim');
 
@@ -511,7 +501,6 @@ const checkIfThereAreLineBreaks = function(note) {
       for(let i = 0; i < filteredSearchResults.length; i++) {
          let date = updateDate(filteredSearchResults[i]);
          notesMarkup(filteredSearchResults[i], date);
-         console.log(filteredSearchResults[i]);
       };
    }
 
