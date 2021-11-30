@@ -128,7 +128,7 @@ const newNoteObject = function(id, content, time,  date) {
 const checkIfThereAreLineBreaks = function(note) {
    if(note.content.includes('<div>') && note.content.indexOf('<div>') !== 0) {
       return note.content.substring(0, note.content.indexOf('<div>'));
-   } else if(note.content.includes('<br>') && note.content.indexOf('<br>')) {
+   } else if(note.content.includes('<br>') && note.content.indexOf('<br>') !== 0) {
       return note.content.substring(0, note.content.indexOf('<br>'));   
    } else {
       return note.content;
