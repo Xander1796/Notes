@@ -51,7 +51,7 @@ const updateDate = function(note) {
    };
 };
 
-
+localStorage.clear()
 //SETTING LOCAL STORAGE
 
 if(!localStorage.getItem('firstVisit')) {
@@ -60,7 +60,7 @@ if(!localStorage.getItem('firstVisit')) {
    const firstNote = [
       {
          id: "0", 
-         content: "Hello there, I hope you enjoy my app.", 
+         content: "Hello there,<br> I hope you enjoy my app.", 
          time: getCurrentTime(), 
          date: getDate()
       }
@@ -126,8 +126,9 @@ const newNoteObject = function(id, content, time,  date) {
 };
 
 const checkIfThereAreLineBreaks = function(note) {
-   if(note.content.includes('<div>') && note.content.indexOf('<div>') === 0) {
-      return note.content.substring(1, note.content.indexOf('</div>'));
+   if(note.content.includes('<div>') && note.content.indexOf('<div>') === 0) { 
+      console.log('dwadwa')
+      return note.content.substring('<div>'.length, note.content.indexOf('</div>'));
    } 
    else if(note.content.includes('<div>') && note.content.indexOf('<div>') !== 0) {
       return note.content.substring(0, note.content.indexOf('<div>'));
@@ -527,7 +528,6 @@ const checkIfThereAreLineBreaks = function(note) {
    };
 
    searchInput.addEventListener('input', searchInputFunction);
-
 
 
 
