@@ -539,6 +539,7 @@ section, nav {
 
 .edit-note-content {
   width: 100%;
+  overflow-wrap: break-word;
   font-size: 1.7rem;
   color: #171738;
   background: #ffffff;

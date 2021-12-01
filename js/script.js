@@ -51,7 +51,6 @@ const updateDate = function(note) {
    };
 };
 
-localStorage.clear()
 //SETTING LOCAL STORAGE
 
 if(!localStorage.getItem('firstVisit')) {
@@ -126,8 +125,16 @@ const newNoteObject = function(id, content, time,  date) {
 };
 
 const checkIfThereAreLineBreaks = function(note) {
-      let cleanNote = note.content.replaceAll('<div>', ' ').replaceAll('</div>', ' ').replaceAll('<br>', ' ');
-      return cleanNote;
+   // Removing all the divs
+
+   let cleanNote = note.content.replaceAll('<div>', '<br>').replaceAll('</div>', '<br>');
+   console.log(cleanNote)
+
+   // Getting rid of the line breaks and selecting the first occurence of a text string
+
+   cleanNote = cleanNote.split('<br>').filter(a => a.trim())[0].trim();
+   
+   return cleanNote;   
 };
 
 
@@ -294,16 +301,19 @@ const checkIfThereAreLineBreaks = function(note) {
          deleteNote.classList.toggle('delete-note-inactive');
          deleteNote.classList.toggle('delete-note-active');
 
-         searchInputInactive();
 
          selectedNote = deleteNote.closest('.note-wrapper');
 
          if(deleteNote.classList.contains('delete-note-active')) {
             addNoteToRemovalArray(selectedNote.id);
+
+            searchInputInactive();
          };
 
          if(deleteNote.classList.contains('delete-note-inactive')) {
             removeNoteFromRemovalArray(selectedNote.id);
+
+            searchInputActive();
          };
 
          infoWhenDeletingNoteFunction();
@@ -389,47 +399,76 @@ const checkIfThereAreLineBreaks = function(note) {
       animationForNewOrEditedNote();
    };
 
+   const removeEditedEmptyNote = function() {
+      const allNotes = [...notesContainer.querySelectorAll('.note-wrapper')];
+      const targetedNoteForDeleting = allNotes.filter(note => note.id === notes[noteThatIsBeingEditedIndex].id);
+
+      targetedNoteForDeleting[0].remove();
+
+      notes.splice(noteThatIsBeingEditedIndex, 1);
+
+      updateNotesStorage();
+   };
+
    editNoteSection.addEventListener('click', function(e) {
       
-      if(e.target.closest('.edit-note-close-button')) {
+      if(e.target.closest('.edit-note-close-button') && editNoteContent.dataset.isNew === 'false') {
+         let isEqual = editNoteContent.innerHTML.trim() === notes[noteThatIsBeingEditedIndex].content;
 
-         if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerHTML.trim() !== notes[noteThatIsBeingEditedIndex].content) {
-
+         if(!isEqual) {
             overlay.classList.add('visible');
             overlay.classList.remove('hidden');
-
-         } else if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerHTML.trim() === notes[noteThatIsBeingEditedIndex].content) {
-
+         } else if(isEqual) {
             activeSection = homeSection;
             toggleSectionVisibility();
-
          };
-         
 
-         if(editNoteContent.innerHTML.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
+      };
 
+      if(e.target.closest('.edit-note-close-button') && editNoteContent.dataset.isNew === 'true') {
+         let isEmpty = editNoteContent.innerText.trim() === "";
+
+         if(!isEmpty) {
             overlay.classList.add('visible');
             overlay.classList.remove('hidden');
-
-         } else if(editNoteContent.innerHTML.trim() === "" && editNoteContent.dataset.isNew === 'true') {
-
+         } else if(isEmpty) {
             activeSection = homeSection;
             toggleSectionVisibility();
-
          };
-      }; 
+
+      }
       
-      if(e.target.closest('.edit-note-finish-edit')) {
+         
+      if(e.target.closest('.edit-note-finish-edit') && editNoteContent.dataset.isNew === 'true') {
+         let isEmpty = editNoteContent.innerText.trim() === "";
          activeSection = homeSection;
-         toggleSectionVisibility();
+         toggleSectionVisibility(); 
 
-         if(editNoteContent.innerHTML.trim() !== "" && editNoteContent.dataset.isNew === 'true') {
+         if(!isEmpty) {
             newNote();
-         }
+         };
+      };
 
-         if(editNoteContent.dataset.isNew === 'false' && editNoteContent.innerHTML.trim() !== notes[noteThatIsBeingEditedIndex].content) {
-            editNote()
-         } 
+      if(e.target.closest('.edit-note-finish-edit') && editNoteContent.dataset.isNew === 'false') {
+         let isEqual = editNoteContent.innerHTML.trim() === notes[noteThatIsBeingEditedIndex].content;
+         let isEmpty = editNoteContent.innerText.trim() === "";
+
+         if(!isEqual && !isEmpty) {
+            editNote();
+            activeSection = homeSection;
+            toggleSectionVisibility();      
+         };
+
+         if(!isEmpty && isEqual) {
+            console.log('yea')
+            activeSection = homeSection;
+            toggleSectionVisibility();      
+         };
+   
+         if(isEmpty) {
+            overlay.classList.add('visible');
+            overlay.classList.remove('hidden');   
+         };    
 
       };
 
@@ -442,12 +481,26 @@ const checkIfThereAreLineBreaks = function(note) {
       }
 
       if(e.target.closest('.edit-permission-popup-button-yes')) {
-         if(editNoteContent.dataset.isNew === 'true') {
+         let isEmpty = editNoteContent.innerText.trim() === '';
+         let isEqual = editNoteContent.innerHTML.trim() === notes[noteThatIsBeingEditedIndex].content;
+         let isNew = editNoteContent.dataset.isNew === 'true';
+
+         if(isNew) {
             newNote();
-         } else {
+         } else if(!isNew && isEmpty) {
+            removeEditedEmptyNote();
+            checkIfThereAreNotes();
+         } else if(!isNew && !isEqual && !isEmpty) {
             editNote();
+         }
+
+         if(searchInput.value.length > 0 && notes.length === 0) {
+            searchInput.value = '';
+            searchInputFunction();
+            console.log('OPAAA')
          };
-      }
+
+      };
 
       if(e.target.closest('.edit-permission-popup-button')) {
          this.classList.remove('visible');
@@ -518,9 +571,7 @@ const checkIfThereAreLineBreaks = function(note) {
 
    searchInput.addEventListener('input', searchInputFunction);
 
-
-
-
+  
 
 
 
