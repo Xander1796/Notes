@@ -482,7 +482,6 @@ const checkIfThereAreLineBreaks = function(note) {
 
       if(e.target.closest('.edit-permission-popup-button-yes')) {
          let isEmpty = editNoteContent.innerText.trim() === '';
-         let isEqual = editNoteContent.innerHTML.trim() === notes[noteThatIsBeingEditedIndex].content;
          let isNew = editNoteContent.dataset.isNew === 'true';
 
          if(isNew) {
@@ -490,14 +489,13 @@ const checkIfThereAreLineBreaks = function(note) {
          } else if(!isNew && isEmpty) {
             removeEditedEmptyNote();
             checkIfThereAreNotes();
-         } else if(!isNew && !isEqual && !isEmpty) {
+         } else if(!isNew && editNoteContent.innerHTML.trim() !== notes[noteThatIsBeingEditedIndex].content && !isEmpty) {
             editNote();
          }
 
          if(searchInput.value.length > 0 && notes.length === 0) {
             searchInput.value = '';
             searchInputFunction();
-            console.log('OPAAA')
          };
 
       };
