@@ -355,6 +355,9 @@ const checkIfThereAreLineBreaks = function(note) {
       }
 
       if(e.target.closest('.home-new-note') && !e.target.closest('.home-new-note').classList.contains('home-action-button-inactive')) {
+         const allNotesAnimations = [...notesContainer.querySelectorAll('.note-and-date')];
+         allNotesAnimations.forEach(anim => anim.classList.remove('new-or-edited-note-anim'));
+
          editNoteContent.dataset.isNew = 'true';
 
          formatingEditSectionForNewNote();
@@ -568,6 +571,11 @@ const checkIfThereAreLineBreaks = function(note) {
    };
 
    searchInput.addEventListener('input', searchInputFunction);
+
+
+
+
+   
 
   
 
