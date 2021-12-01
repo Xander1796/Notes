@@ -82,11 +82,9 @@ html {
 }
 
 body {
+    @include flex(column, null, null);
+    min-height: 100vh;
     background-color: #FAFAFA;
-
-    @include media-760px {
-        padding: 0 3rem;
-    }
 }
 
 button {
@@ -141,6 +139,7 @@ section, nav {
 
     @include media-760px {
         width: 100%;
+        padding: 0 3rem;
         margin: auto;
     }
 }
@@ -350,7 +349,7 @@ section, nav {
 .no-notes-message {
     @include flex(column, center, center);
     width: 100%;
-    margin-top: 5rem;
+    margin: 5rem 0;
 
     img {
         width: 30rem;
@@ -496,7 +495,7 @@ section, nav {
     margin-top: 3rem;
 
     &:last-of-type {
-        margin-bottom: 8rem;
+        margin-bottom: 3rem;
     }
 
     .edit-note {
@@ -681,6 +680,8 @@ section, nav {
 
 .edit-note-content {
     width: 100%;
+    min-height: 55vh;
+    margin-bottom: 3rem;
     overflow-wrap: break-word;
     font-size: var(--regular-font-size);
     color: $primary-color-1;
@@ -698,24 +699,22 @@ section, nav {
 
 footer {
     @include flex(row, center, center);
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    margin-top: auto;
     border-top: 1px solid #e9e9e9;
     background: #FAFAFA;
-    width: 100vw;
-    padding: 2rem 0;
-
-    @include media-760px {
-        width: 100%;
-        padding: 3rem;
-    }
+    width: 100%;
 
     .wrapper {
         @include flex(row, center, space-between);
         flex-wrap: wrap;
         gap: 2rem;
+        padding: 2rem 0;
         width: 70rem;
+
+        @include media-760px {
+            width: 100%;
+            padding: 1.5rem 3rem;
+        }
     }
 
     p {
