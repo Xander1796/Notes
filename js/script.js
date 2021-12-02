@@ -39,11 +39,14 @@ const getCurrentTime = function() {
    return `Today, ${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
 };
 
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const monthsOfYear = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 
 const getDate = function() {
    const date = new Date();
    
-   return `${date.getDate()}.${Number(date.getMonth() + 1)}.${date.getFullYear()}`;
+   return `${daysOfWeek[date.getDay()]}, ${date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`} ${monthsOfYear[date.getMonth()]} ${date.getFullYear()}`;
 };
 
 
@@ -105,9 +108,11 @@ const checkIfThereAreNotes = function() {
 
 checkIfThereAreNotes();
 
+//COMUTING BETWEEN SECTIONS
 
 const sections = [homeSection, editNoteSection];
 let activeSection = homeSection;
+
 
 const toggleSectionVisibility = function() {
    scrollToTop();
@@ -136,7 +141,6 @@ const checkIfThereAreLineBreaks = function(note) {
    // Removing all the divs
 
    let cleanNote = note.content.replaceAll('<div>', '<br>').replaceAll('</div>', '<br>');
-   console.log(cleanNote)
 
    // Getting rid of the line breaks and selecting the first occurence of a text string
 
@@ -234,6 +238,8 @@ const checkIfThereAreLineBreaks = function(note) {
 
   
    const deleteSelectedNotes = function() {
+      //THIS FUNCTION LOOPS THROUGH THE NOTES DELETING THE SELECTED NOTES FROM BOTH LOCAL STORAGE AND FROM THE DOM
+
       const allNotes = notesContainer.querySelectorAll('.note-wrapper');
 
       for(let i = 0; i < selectedNotesForRemoval.length; i++) {
@@ -475,7 +481,6 @@ const checkIfThereAreLineBreaks = function(note) {
          };
 
          if(!isEmpty && isEqual) {
-            console.log('yea')
             activeSection = homeSection;
             toggleSectionVisibility();      
          };
