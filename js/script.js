@@ -404,12 +404,19 @@ const checkIfThereAreLineBreaks = function(note) {
       animationForNewOrEditedNote();
    };
 
+   const newNoteId = function() {
+      if(notes.length === 0) return '0';
+      if(notes.length > 0) {
+         const allNotesIds = notes.map(note => Number(note.id));
+         return (Math.max(...allNotesIds) + 1).toString();
+      };
+   };
+
+   newNoteId();
+
    const newNote = function() {
-      const notesArrayItsEmpty = notes.length > 0;
 
-      const newNoteId = notesArrayItsEmpty ? (Number(notes[notes.length - 1].id) + 1).toString() : '0';
-
-      newNoteObject(newNoteId, editNoteContent.innerHTML, editNoteDate.innerHTML,  getDate());
+      newNoteObject(newNoteId(), editNoteContent.innerHTML, editNoteDate.innerHTML,  getDate());
 
       checkIfThereAreNotes();
 
@@ -418,6 +425,7 @@ const checkIfThereAreLineBreaks = function(note) {
       updateNotesStorage();
       
       animationForNewOrEditedNote();
+
    };
 
    const removeEditedEmptyNote = function() {
