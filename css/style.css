@@ -68,7 +68,7 @@ section, nav {
       margin: auto; } }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   background: rgba(0, 0, 0, 0.2);
   width: 100vw;
   height: 100vh;
@@ -172,7 +172,12 @@ section, nav {
   align-items: center;
   gap: 3rem;
   width: 100%;
-  margin-top: 3rem; }
+  padding-top: 3rem;
+  position: sticky;
+  outline: 2px solid #FAFAFA;
+  top: 0;
+  z-index: 1;
+  background: #FAFAFA; }
   .search-wrapper .close-search {
     cursor: pointer;
     position: relative;
@@ -275,6 +280,10 @@ section, nav {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 8rem;
+  background: #FAFAFA;
+  outline: 2px solid #FAFAFA;
   justify-content: space-between;
   padding: 3rem 0;
   border-bottom: 1px solid #e9e9e9; }
@@ -420,6 +429,9 @@ section, nav {
   .note-wrapper:last-of-type {
     margin-bottom: 3rem; }
   .note-wrapper .edit-note {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-size: var(--small-font-size);
     color: #171738;
     cursor: pointer;
@@ -429,6 +441,7 @@ section, nav {
     .note-wrapper .edit-note:hover {
       background: #f1f1f1; }
     .note-wrapper .edit-note svg {
+      margin-right: .5rem;
       width: 1.3rem;
       height: 1.3rem; }
       .note-wrapper .edit-note svg path {
@@ -499,6 +512,10 @@ section, nav {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: #FAFAFA;
+  outline: 2px solid #FAFAFA;
   width: 100%;
   border-bottom: 1px solid #e9e9e9;
   padding: 3rem 0;
@@ -566,7 +583,7 @@ section, nav {
 
 .edit-note-content {
   width: 100%;
-  min-height: 55vh;
+  min-height: 85vh;
   margin-bottom: 3rem;
   overflow-wrap: break-word;
   font-size: var(--regular-font-size);
@@ -631,4 +648,4 @@ footer {
 
 @media (max-width: 500px) {
   html {
-    font-size: 56%; } }
+    font-size: 59%; } }

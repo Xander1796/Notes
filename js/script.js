@@ -25,6 +25,12 @@ const editNoteSection = document.querySelector('#edit-note');
 const editNoteContent = document.querySelector('.edit-note-content');
 const editNoteDate = document.querySelector('.edit-note-date');
 
+const footer = document.querySelector('footer');
+
+const scrollToTop = function() {
+   window.scrollTo({top: 0});
+};
+
 //METHODS FOR DATE
 
 const getCurrentTime = function() {
@@ -104,13 +110,15 @@ const sections = [homeSection, editNoteSection];
 let activeSection = homeSection;
 
 const toggleSectionVisibility = function() {
+   scrollToTop();
+
    sections.forEach((section) => {
       section.classList.remove('hidden');
       section.classList.add('hidden');
    });
    activeSection.classList.remove('hidden');
    activeSection.classList.add('visible');
-}
+};
 
 let selectedNotesForRemoval = [];
 
@@ -328,6 +336,8 @@ const checkIfThereAreLineBreaks = function(note) {
       if(e.target.closest('.edit-note') || e.target.closest('.note-and-date')) {
 
          if(homeDeleteNote.classList.contains('home-action-button-inactive')) {
+            scrollToTop();
+
             selectedNote = e.target.closest('.note-wrapper');
    
             const targetedNote = notes.find(note => note.id === e.target.closest('.note-wrapper').id);
@@ -355,6 +365,8 @@ const checkIfThereAreLineBreaks = function(note) {
       }
 
       if(e.target.closest('.home-new-note') && !e.target.closest('.home-new-note').classList.contains('home-action-button-inactive')) {
+         scrollToTop();
+
          const allNotesAnimations = [...notesContainer.querySelectorAll('.note-and-date')];
          allNotesAnimations.forEach(anim => anim.classList.remove('new-or-edited-note-anim'));
 
@@ -501,6 +513,10 @@ const checkIfThereAreLineBreaks = function(note) {
             searchInputFunction();
          };
 
+         if(searchInput.value.length > 0 && notes.length > 0) {
+            searchInputFunction();
+         };
+
       };
 
       if(e.target.closest('.edit-permission-popup-button')) {
@@ -559,6 +575,8 @@ const checkIfThereAreLineBreaks = function(note) {
    }
 
    const searchInputFunction = function() {
+      scrollToTop();
+
       checkIfThereAreNotes();
 
       checkSearchQueryLength();
