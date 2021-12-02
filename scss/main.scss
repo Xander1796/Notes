@@ -140,7 +140,6 @@ section, nav {
 
     @include media-760px {
         width: 100%;
-        padding: 0 3rem;
         margin: auto;
     }
 }
@@ -198,6 +197,10 @@ section, nav {
 .nav {
     @include flex(row, center, null);
     height: $nav-height;
+
+    @include media-760px {
+        padding: 0 2rem;
+    }
 }
 
 .nav-logo {
@@ -269,6 +272,10 @@ section, nav {
     top: 0;
     z-index: 1;
     background: #FAFAFA;
+
+    @include media-760px {
+        padding: 2rem 2rem 0 2rem;
+    }
 
     .close-search {
         cursor: pointer;
@@ -345,6 +352,10 @@ section, nav {
     padding: 3rem 0;
     border-bottom: 1px solid #e9e9e9;
 
+    @include media-760px {
+        padding: 2rem;
+    }
+
     p {
         font-size: var(--regular-font-size);
         color: $primary-color-1;
@@ -391,6 +402,10 @@ section, nav {
     justify-content: space-between;
     padding: 3rem 0;
     border-bottom: 1px solid #e9e9e9;
+
+    @include media-760px {
+        padding: 2rem;
+    }
 }
 
 .info-when-deleting-note {
@@ -496,6 +511,10 @@ section, nav {
 
 #notes-container {
     @include flex(column, center, space-between);
+
+    @include media-760px {
+        padding: 0 2rem;
+    }
 }
     
 .note-wrapper {
@@ -628,9 +647,14 @@ section, nav {
     background: #FAFAFA;
     outline: 2px solid #FAFAFA;
     width: 100%;
-    border-bottom: 1px solid #e9e9e9;
-    padding: 3rem 0;
-    margin-bottom: 3rem;
+    padding: 2rem 0;
+    margin-bottom: 4px;
+
+    @include media-760px {
+        outline: none;
+        margin-bottom: 0;
+        padding: 2rem
+    }
 
     &-buttons {
         @include flex(row, center, null);
@@ -644,11 +668,11 @@ section, nav {
     color: $primary-color-1;
     font-weight: 600;
     cursor: pointer;
-    padding: .5rem;
 }
 
 .edit-note-finish-edit {
     border-radius: .5rem;
+    padding: .5rem;
     background: $secondary-color-2;
     color: $secondary-color-1;
 
@@ -663,15 +687,10 @@ section, nav {
 }
 
 .edit-note-close-button {
-    border-radius: 50%;
     position: relative;
 
     &::after {
         @include tooltip('Go back', 5rem , 3rem);
-    }
-
-    &:hover {
-        background: $secondary-color-3;
     }
 
     &:hover::after {
@@ -707,6 +726,12 @@ section, nav {
     border-radius: 2rem;
     padding: 2rem;
 
+    @include media-760px {
+        border-radius: 0;
+        box-shadow: none;
+        margin-bottom: 0;
+    }
+
     &:focus {
         border: none;
         outline: none;
@@ -729,7 +754,7 @@ footer {
 
         @include media-760px {
             width: 100%;
-            padding: 1.5rem 3rem;
+            padding: 1.5rem 2rem;
         }
     }
 
