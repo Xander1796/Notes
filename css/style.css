@@ -56,7 +56,8 @@ span, a {
   cursor: not-allowed; }
 
 section {
-  transition: .2s ease all; }
+  transition: .2s ease all;
+  min-height: 50rem; }
 
 section, nav {
   margin: 0 auto;

@@ -130,7 +130,8 @@ span, a {
 }
 
 section {
-    transition: .2s ease all
+    transition: .2s ease all;
+    min-height: 50rem;
 }
 
 section, nav {
