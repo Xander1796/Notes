@@ -68,7 +68,7 @@ if(!localStorage.getItem('firstVisit')) {
    const firstNote = [
       {
          id: "0", 
-         content: "Hello there, I hope you enjoy my app.", 
+         content: "Hello there, I am your first note.", 
          time: getCurrentTime(), 
          date: getDate()
       }
