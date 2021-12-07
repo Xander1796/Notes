@@ -665,6 +665,8 @@ footer {
     gap: 2rem;
     padding: 2rem 0;
     width: 70rem; }
+    footer .wrapper p a {
+      color: #171738; }
     @media (max-width: 760px) {
       footer .wrapper {
         width: 100%;

@@ -781,6 +781,10 @@ footer {
         padding: 2rem 0;
         width: 70rem;
 
+        p a {
+            color: $primary-color-1;
+        }
+
         @include media-760px {
             width: 100%;
             padding: 1.5rem 2rem;
