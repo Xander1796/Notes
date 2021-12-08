@@ -632,7 +632,8 @@ section, nav {
             border-radius: 50%;
             z-index: -1;
             opacity: 0;
-            transition: .05s ease all;
+            transition: .05s ease;
+            transition-property: opacity, width, height;
         }
 
         &:active::before {
