@@ -716,3 +716,8 @@ footer {
 @media (max-width: 500px) {
   html {
     font-size: 59%; } }
+@media (min-width: 2000px) {
+  html {
+    font-size: 100%;
+  }
+}
