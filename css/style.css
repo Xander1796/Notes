@@ -231,7 +231,7 @@ section, nav {
     top: 50%;
     transform: translate(-50%, -50%); }
     .search-icon path {
-      fill: #A5A5A5; }
+      fill: #707070; }
   .search-input {
     width: 100%;
     height: 100%;
@@ -248,7 +248,7 @@ section, nav {
       box-shadow: none; }
     .search-input::placeholder {
       font-size: 1.5rem;
-      color: #A5A5A5;
+      color: #707070;
       font-weight: 400; }
 
 .search-message {
@@ -275,11 +275,11 @@ section, nav {
     height: auto; }
     @media (max-width: 500px) {
       .no-notes-message img {
-        width: 17rem; } }
+        width: 24rem; } }
   .no-notes-message h2 {
     margin-top: 3rem;
     font-size: 2.4rem;
-    color: #bbbbbb; }
+    color: #171738; }
     @media (max-width: 760px) {
       .no-notes-message h2 {
         font-size: 2rem; } }
@@ -318,8 +318,6 @@ section, nav {
     border-radius: 50%;
     padding: 1rem;
     margin-left: -1rem; }
-    .info-when-deleting-note .cancel-note-deleting:hover, .info-when-deleting-note .cancel-note-deleting:active {
-      background: #f1f1f1; }
     @media (max-width: 490px) {
       .info-when-deleting-note .cancel-note-deleting:hover {
         background: none; } }
@@ -388,7 +386,7 @@ section, nav {
     .home-action-button svg path {
       fill: #171738; }
   .home-action-button-inactive svg path {
-    fill: #A5A5A5; }
+    fill: #707070; }
   .home-action-button-inactive {
     cursor: not-allowed; }
 
@@ -468,8 +466,6 @@ section, nav {
     padding: .5rem;
     border-radius: .5rem;
     margin-left: -.5rem; }
-    .note-wrapper .edit-note:hover, .note-wrapper .edit-note:active {
-      background: #f1f1f1; }
     @media (max-width: 490px) {
       .note-wrapper .edit-note:hover {
         background: none; } }
@@ -499,10 +495,11 @@ section, nav {
       overflow: hidden;
       white-space: nowrap;
       font-size: var(--regular-font-size);
+      color: #171738;
       margin-bottom: .7rem; }
     .note-wrapper .note-and-date .note-date {
       font-size: var(--small-font-size);
-      color: #A5A5A5; }
+      color: #707070; }
   .note-wrapper .new-or-edited-note-anim {
     animation: new-or-edited-note-anim 1.2s forwards; }
 
@@ -521,21 +518,6 @@ section, nav {
     cursor: pointer;
     border-radius: .5rem;
     margin-left: 2rem; }
-    .note-wrapper .delete-note::before {
-      content: "";
-      position: absolute;
-      width: 0px;
-      height: 0px;
-      background: #5858fb33;
-      border-radius: 50%;
-      z-index: -1;
-      opacity: 0;
-      transition: .05s ease;
-      transition-property: opacity, width, height; }
-    .note-wrapper .delete-note:active::before {
-      width: 4.6rem;
-      height: 4.6rem;
-      opacity: 1; }
     .note-wrapper .delete-note svg {
       width: 1.4rem;
       height: 1.4rem; }
@@ -549,7 +531,7 @@ section, nav {
       stroke: #ffffff;
       animation: checkmark-path-anim .4s ease forwards; }
   .note-wrapper .delete-note-inactive {
-    border: 1px solid #A5A5A5; }
+    border: 1px solid #707070; }
 
 @keyframes checkmark-path-anim {
   100% {
@@ -624,8 +606,6 @@ section, nav {
     @media (max-width: 490px) {
       .edit-note-close-button::after {
         display: none; } }
-  .edit-note-close-button:hover, .edit-note-close-button:active {
-    background: #f1f1f1; }
   @media (max-width: 490px) {
     .edit-note-close-button:hover {
       background: none; } }
@@ -639,7 +619,7 @@ section, nav {
 
 .edit-note-date {
   font-size: var(--small-font-size);
-  color: #A5A5A5; }
+  color: #707070; }
 
 .edit-note-content {
   width: 100%;
@@ -707,7 +687,7 @@ footer {
     width: 1.7rem;
     cursor: pointer; }
     .social-icons .social-icon path {
-      fill: #A5A5A5; }
+      fill: #707070; }
 
 .some-text {
   font-size: 4rem;
@@ -716,14 +696,3 @@ footer {
 @media (max-width: 500px) {
   html {
     font-size: 59%; } }
-@media (min-width: 2000px) {
-  html {
-    font-size: 80%;
-  }
-}
-
-@media (min-width: 2200px) {
-  html {
-    font-size: 100%;
-  }
-}

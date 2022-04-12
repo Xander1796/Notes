@@ -2,7 +2,7 @@ $section-width: 70rem;
 $box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .1);
 
 $primary-color-1: #171738;
-$primary-color-2: #A5A5A5;
+$primary-color-2: #707070;
 $secondary-color-1: #ffffff;
 $secondary-color-2:#5757FB;
 $secondary-color-3: #f1f1f1;
@@ -377,14 +377,14 @@ section, nav {
         height: auto;
 
         @include media-500px {
-           width: 17rem;
+           width: 24rem;
         }
     }
 
     h2 {
         margin-top: 3rem;
         font-size: 2.4rem;
-        color: #bbbbbb;
+        color: $primary-color-1;
 
         @include media-760px {
             font-size: 2rem;
@@ -423,10 +423,6 @@ section, nav {
         border-radius: 50%;
         padding: 1rem;
         margin-left: -1rem;
-
-        &:hover, &:active {
-            background: $secondary-color-3;
-        }
         
         @media (max-width: 490px) {
             &:hover {
@@ -546,10 +542,6 @@ section, nav {
         border-radius: .5rem;
         margin-left: -.5rem;
 
-        &:hover, &:active {
-            background: $secondary-color-3;
-        }
-        
         @media (max-width: 490px) {
             &:hover {
                 background: none;
@@ -592,6 +584,7 @@ section, nav {
             overflow: hidden;
             white-space: nowrap;
             font-size: var(--regular-font-size);
+            color: $primary-color-1;
             margin-bottom: .7rem;
         }
     
@@ -622,25 +615,6 @@ section, nav {
         cursor: pointer;
         border-radius: .5rem;
         margin-left: 2rem;
-
-        &::before {
-            content: "";
-            position: absolute;
-            width: 0px;
-            height: 0px;
-            background: #5858fb33;
-            border-radius: 50%;
-            z-index: -1;
-            opacity: 0;
-            transition: .05s ease;
-            transition-property: opacity, width, height;
-        }
-
-        &:active::before {
-            width: 4.6rem;
-            height: 4.6rem;
-            opacity: 1;
-        }
         
         svg {
             width: 1.4rem;
@@ -729,10 +703,6 @@ section, nav {
 
     &::after {
         @include tooltip('Go back', 5rem , 3rem);
-    }
-
-    &:hover, &:active {
-        background: $secondary-color-3;
     }
     
     @media (max-width: 490px) {
