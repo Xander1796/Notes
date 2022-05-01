@@ -1,830 +1,975 @@
 $section-width: 70rem;
-$box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .1);
+$box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
 
 $primary-color-1: #171738;
 $primary-color-2: #707070;
 $secondary-color-1: #ffffff;
-$secondary-color-2:#5757FB;
+$secondary-color-2: #5757fb;
 $secondary-color-3: #f1f1f1;
 $nav-height: 7rem;
 
 :root {
-    --regular-font-size: 1.7rem;
-    --small-font-size: 1.3rem;
-    --small-regular-font-size: 1.5rem;
+  --regular-font-size: 1.7rem;
+  --small-font-size: 1.3rem;
+  --small-regular-font-size: 1.5rem;
 }
 
 @mixin media-760px {
-    @media(max-width: 760px) {@content;}
+  @media (max-width: 760px) {
+    @content;
+  }
 }
 
 @mixin media-500px {
-    @media(max-width: 500px) {@content;}
+  @media (max-width: 500px) {
+    @content;
+  }
 }
 
 @mixin flex($flexDirection, $align, $justify) {
-    display: flex;
-    flex-direction: $flexDirection;
-    align-items: $align;
-    justify-content: $justify;
+  display: flex;
+  flex-direction: $flexDirection;
+  align-items: $align;
+  justify-content: $justify;
 }
 
-@mixin tooltip ($content, $width, $height, $background: $secondary-color-3) {
-    content: $content;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    background: $background;
-    color: $primary-color-1;
-    font-size: 1.5rem;
-    font-weight: 600;
-    min-width: $width;
-    min-height: $height;
-    white-space: nowrap;
-    bottom: calc( (#{$height} + 1rem) * -1);
-    border-radius: .5rem;
-    padding: .4rem;
-    opacity: 0;
-    visibility: hidden;
+@mixin tooltip($content, $width, $height, $background: $secondary-color-3) {
+  content: $content;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $background;
+  color: $primary-color-1;
+  font-size: 1.5rem;
+  font-weight: 600;
+  min-width: $width;
+  min-height: $height;
+  white-space: nowrap;
+  bottom: calc((#{$height} + 1rem) * -1);
+  border-radius: 0.5rem;
+  padding: 0.4rem;
+  opacity: 0;
+  visibility: hidden;
 
-    @media (max-width: 490px) {
-        display: none;
-    }
+  @media (max-width: 490px) {
+    display: none;
+  }
 }
 
 @mixin popup() {
-    @include flex(column, null, center);
-    position: absolute;
-    left: 50%;
-    top: 5%;
-    padding: 1rem;
-    background: $secondary-color-1;
-    border-radius: .5rem;
-    transform: translate(-50%, -5%);
-    opacity: 0;
-    animation: popup-anim .3s ease forwards;
+  @include flex(column, null, center);
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  padding: 1rem;
+  background: $secondary-color-1;
+  border-radius: 0.5rem;
+  transform: translate(-50%, -5%);
+  opacity: 0;
+  animation: popup-anim 0.3s ease forwards;
 }
 
 @keyframes popup-anim {
-    100% {
-        transform: translate(-50%, 0%);
-        opacity: 1;
-    }
+  100% {
+    transform: translate(-50%, 0%);
+    opacity: 1;
+  }
 }
 
 *,
 *::after,
 *::before {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Mulish', sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Mulish", sans-serif;
 }
 
 html {
-    font-size: 62.5%;
+  font-size: 62.5%;
 }
 
 body {
-    @include flex(column, null, null);
-    min-height: 100vh;
-    background-color: #FAFAFA;
+  @include flex(column, null, null);
+  min-height: 100vh;
+  background-color: #fafafa;
 }
 
 button {
-    border: none;
-    background: none
+  border: none;
+  background: none;
 }
 
-span, a {
-    display: inline-block;
+span,
+a {
+  display: inline-block;
 }
 
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 .visible {
-    animation: visible-anim .3s ease forwards;
+  animation: visible-anim 0.3s ease forwards;
 }
 
 @keyframes visible-anim {
-    0% {
-        display: none;
-        opacity: 0;
-        visibility: hidden;
-    }
+  0% {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
 
-    1% {
-        display: inline-block;
-        opacity: 0;
-        visibility: hidden;            
-    }
+  1% {
+    display: inline-block;
+    opacity: 0;
+    visibility: hidden;
+  }
 
-    100% {
-        display: inline-block;
-        opacity: 1;
-        visibility: visible;            
-    }
+  100% {
+    display: inline-block;
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
-
 .not-allowed {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 section {
-    transition: .2s ease all;
-    min-height: 50rem;
+  transition: 0.2s ease all;
+  min-height: 50rem;
 }
 
-section, nav {
-    margin: 0 auto;
-    width: $section-width;
+section,
+nav {
+  margin: 0 auto;
+  width: $section-width;
 
-    @include media-760px {
-        width: 100%;
-        margin: auto;
-    }
+  @include media-760px {
+    width: 100%;
+    margin: auto;
+  }
 }
 
 .overlay {
-    position: fixed;
-    background: rgba(0, 0, 0, .2);
-    width: 100vw;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    z-index: 100;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 100;
 
-    .popup {
-        @include popup();
-    }
+  .popup {
+    @include popup();
+  }
 }
 
 .edit-permission-popup {
-    p {
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: $primary-color-1;
-        margin-bottom: 1.5rem;
-    }
+  p {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: $primary-color-1;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .edit-permission-popup-actions {
-    @include flex(row, center, space-around);
+  @include flex(row, center, space-around);
 
-    .buttons-delimitator {
-        width: 1px;
-        height: 1.5rem;
-        background: #cdcdcd;
+  .buttons-delimitator {
+    width: 1px;
+    height: 1.5rem;
+    background: #cdcdcd;
+  }
+
+  button {
+    color: #4d4dc1;
+    font-weight: 600;
+    font-size: var(--regular-font-size);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+
+    &:hover {
+      background: rgba(77, 77, 193, 0.05);
     }
 
-    button {
-        color: #4d4dc1;
-        font-weight: 600;
-        font-size: var(--regular-font-size);
-        cursor: pointer;
-        padding: .5rem 1rem;
-        border-radius: .5rem;
-
-        &:hover {
-            background: rgba(77, 77, 193, 0.05);
-        }
-
-        &:first-of-type {
-            margin-right: 1rem;
-        }
+    &:first-of-type {
+      margin-right: 1rem;
     }
+  }
 }
 
 .nav {
-    @include flex(row, center, null);
-    height: $nav-height;
+  @include flex(row, center, null);
+  height: $nav-height;
 
-    @include media-760px {
-        padding: 0 2rem;
-    }
+  @include media-760px {
+    padding: 0 2rem;
+  }
 }
 
 .nav-logo {
-    width: 8.2rem;
-    @include flex(row, flex-start, null);
+  width: 8.2rem;
+  @include flex(row, flex-start, null);
+  position: relative;
+  overflow: hidden;
+
+  &-text {
     position: relative;
-    overflow: hidden;
+    bottom: 10rem;
+    color: $primary-color-1;
+    font-weight: 700;
+    font-size: 2.3rem;
+    animation: nav-logo-text-anim 0.5s 0.5s forwards;
+  }
 
-    &-text {
-        position: relative;
-        bottom: 10rem;
-        color: $primary-color-1;
-        font-weight: 700;
-        font-size: 2.3rem;
-        animation: nav-logo-text-anim .5s .5s forwards;
+  &-line {
+    width: inherit;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    path {
+      stroke-dasharray: 58;
+      stroke-dashoffset: 58;
+      animation: nav-logo-line-anim 1s forwards;
     }
+  }
 
-    &-line {
-        width: inherit;
-        position: absolute;
-        left: 0;
-        bottom: 0;
-
-        path {
-            stroke-dasharray: 58;
-            stroke-dashoffset: 58;
-            animation: nav-logo-line-anim 1s forwards;
-        }
-    }
-
-    &-pen {
-        position: absolute;
-        bottom: 1px;
-        width: 1.6rem;
-        animation: nav-logo-pen-anim 1s forwards;
-        left: 0;
-    }
+  &-pen {
+    position: absolute;
+    bottom: 1px;
+    width: 1.6rem;
+    animation: nav-logo-pen-anim 1s forwards;
+    left: 0;
+  }
 }
 
 @keyframes nav-logo-text-anim {
-    0% {
-        bottom: -10rem;
-    }
+  0% {
+    bottom: -10rem;
+  }
 
-    100% {
-        bottom: 0;
-    }
+  100% {
+    bottom: 0;
+  }
 }
 
 @keyframes nav-logo-line-anim {
-    100% {
-        stroke-dashoffset: 0;
-    }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes nav-logo-pen-anim {
-    100% {
-        transform: translateX(6.6rem)
-    }
+  100% {
+    transform: translateX(6.6rem);
+  }
 }
 
 .search-wrapper {
-    @include flex(row, center, null);
-    gap: 3rem;
-    width: 100%;
-    padding-top: 3rem;
-    position: sticky;
-    outline: 2px solid #FAFAFA;
-    top: 0;
-    z-index: 1;
-    background: #FAFAFA;
+  @include flex(row, center, null);
+  gap: 3rem;
+  width: 100%;
+  padding-top: 3rem;
+  position: sticky;
+  outline: 2px solid #fafafa;
+  top: 0;
+  z-index: 1;
+  background: #fafafa;
 
-    @include media-760px {
-        padding: 2rem 2rem 0 2rem;
-    }
+  @include media-760px {
+    padding: 2rem 2rem 0 2rem;
+  }
 
-    .close-search {
-        cursor: pointer;
-        position: relative;
-        border-radius: 50%;
-        padding: .5rem;
-
-        &::after {
-            @include tooltip('close', 5rem, 3rem)
-        }
-
-        &:hover::after {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        &:hover {
-            background: $secondary-color-3;
-        }
-
-        svg {
-            width: 2.1rem;
-            height: 2.1rem;
-        }
-    }
-}
-
-.search {
-    width: 100%;
-    position: relative;
-    border-radius: 10rem;
-    height: 5rem;
-
-    &-icon {
-        position: absolute;
-        width: 1.5rem;
-        height: 1.5rem;
-        left: 2rem;
-        top: 50%;
-        transform: translate(-50%, -50%);
-
-        & path {
-            fill: $primary-color-2;
-        }
-    }
-
-    &-input {
-        width: 100%;
-        height: 100%;
-        border: none;
-        outline: none;
-        background: $secondary-color-1;
-        box-shadow: $box-shadow;
-        border-radius: 10rem;
-        padding: 0 2rem 0 4rem;
-        font-size: var(--regular-font-size);
-        color: $primary-color-1;
-
-        &:focus {
-            outline: 1px solid rgba(0, 0, 0, .4);
-            box-shadow: none;
-        }
-
-        &::placeholder {
-            font-size: 1.5rem;
-            color: $primary-color-2;
-            font-weight: 400;
-        }
-    }
-}
-
-.search-message {
-    width: 100%;
-    padding: 3rem 0;
-    border-bottom: 1px solid #e9e9e9;
-
-    @include media-760px {
-        padding: 2rem;
-    }
-
-    p {
-        font-size: var(--regular-font-size);
-        color: $primary-color-1;
-        font-weight: 600
-    }
-}
-
-.no-notes-message {
-    @include flex(column, center, center);
-    width: 100%;
-    margin: 5rem 0;
-
-    img {
-        width: 30rem;
-        height: auto;
-
-        @include media-500px {
-           width: 24rem;
-        }
-    }
-
-    h2 {
-        margin-top: 3rem;
-        font-size: 2.4rem;
-        color: $primary-color-1;
-
-        @include media-760px {
-            font-size: 2rem;
-        }
-
-        span {
-            font-weight: 400;
-            color: $primary-color-1;
-        }
-    }
-}
-
-.home-actions {
-    @include flex(row, center, space-between);
-    position: sticky;
-    top: 8rem;
-    background: #FAFAFA;
-    outline: 2px solid #FAFAFA;
-    justify-content: space-between;
-    padding: 3rem 0;
-    border-bottom: 1px solid #e9e9e9;
-
-    @include media-760px {
-        padding: 2rem;
-    }
-}
-
-.info-when-deleting-note {
-    @include flex(row, center, null);
-    
-    .cancel-note-deleting {
-        @include flex(row, center, center);
-        position: relative;
-        cursor: pointer;
-        margin-right: 1.5rem;
-        border-radius: 50%;
-        padding: 1rem;
-        margin-left: -1rem;
-        
-        @media (max-width: 490px) {
-            &:hover {
-                background: none;
-            }
-        }
-
-        &::after {
-            @include tooltip("Cancel", 5rem, 3rem);
-        }
-
-        &:hover::after {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        & svg {
-            width: 1.5rem;
-            height: 1.5rem;
-
-            & path {
-                fill: $primary-color-1;
-            }
-        }
-    }
-
-    .notes-selected-number {
-        font-size: var(--regular-font-size);
-        font-weight: 600;
-        color: $primary-color-1;
-    }
-}
-
-.info-when-deleting-note-inactive {
-    visibility: hidden;
-    opacity: 0;
-}
-
-.home-actions-buttons {
-    @include flex(row, center, null);
-}
-
-
-.home-action-button {
-    @include flex(row, center, center);
-    position: relative;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    box-shadow: $box-shadow;
-    background: $secondary-color-1;
+  .close-search {
     cursor: pointer;
+    position: relative;
+    border-radius: 50%;
+    padding: 0.5rem;
+
+    &::after {
+      @include tooltip("close", 5rem, 3rem);
+    }
 
     &:hover::after {
       opacity: 1;
       visibility: visible;
     }
 
-    &:first-of-type {
-        margin-right: 1.5rem;
+    &:hover {
+      background: $secondary-color-3;
     }
-
-    & svg {
-        width: 1.7rem;
-        height: 1.7rem;
-
-        path {
-            fill: $primary-color-1;
-        }
-    }
-
-    &-inactive svg path {
-        fill: $primary-color-2;
-    }
-
-    &-inactive {
-        cursor: not-allowed;
-    }
-}
-
-.home-delete-note {
-    &::after {
-        @include flex(row, center, center);
-        @include tooltip("Delete", 5rem, 3rem);
-    }
-}
-
-.home-new-note::after {
-    @include flex(row, center, center);
-    @include tooltip("New", 5rem, 3rem);
-}
-
-#notes-container {
-    @include flex(column, center, space-between);
-
-    @include media-760px {
-        padding: 0 2rem;
-    }
-}
-    
-.note-wrapper {
-    width: 100%;
-    list-style-type: none;
-    transition: .4s ease margin;
-    margin-top: 3rem;
-
-    &:last-of-type {
-        margin-bottom: 3rem;
-    }
-
-    .edit-note {
-        @include flex(row, center, null);
-        font-size: var(--small-font-size);
-        color: $primary-color-1;
-        cursor: pointer;
-        padding: .5rem;
-        border-radius: .5rem;
-        margin-left: -.5rem;
-
-        @media (max-width: 490px) {
-            &:hover {
-                background: none;
-            }
-        }
-
-        svg {
-            margin-right: .5rem;
-            width: 1.3rem;
-            height: 1.3rem;
-    
-            path {
-                fill: $primary-color-1;
-            }
-        }
-    }
-
-    .note {
-        display: grid;
-        grid-template-columns: minmax(80%, 100%) 1fr;
-        align-items: center;
-        width: 100%;
-        margin-top: 1rem;
-    }
-
-    .note-and-date {
-        cursor: pointer;
-        box-shadow: $box-shadow;
-        background: $secondary-color-1;
-        border-radius: 2rem;
-        padding: 1rem;
-        min-width: 94%;
-
-        &:active {
-            background: $secondary-color-3;
-        }
-    
-        .note-content {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            font-size: var(--regular-font-size);
-            color: $primary-color-1;
-            margin-bottom: .7rem;
-        }
-    
-        .note-date {
-            font-size: var(--small-font-size);
-            color: $primary-color-2;
-        }
-    }
-
-    .new-or-edited-note-anim {
-        animation: new-or-edited-note-anim 1.2s forwards;
-    }
-
-    @keyframes new-or-edited-note-anim {
-        0% {
-            background: #e5e5e5;
-        }
-
-        100% {
-            background: $secondary-color-1;
-        }
-    }
-
-    .delete-note {
-        @include flex(row, center, center);
-        min-width: 2.2rem;
-        height: 2.2rem;
-        cursor: pointer;
-        border-radius: .5rem;
-        margin-left: 2rem;
-        
-        svg {
-            width: 1.4rem;
-            height: 1.4rem;
-        }
-    }
-
-    .checkmark-path {
-        stroke-dasharray: 21;
-        stroke-dashoffset: 21;
-    }
-   
-    .delete-note-active {
-        background: $secondary-color-2;
-        border: none;
-
-        .checkmark-path {
-            stroke: $secondary-color-1;
-            animation: checkmark-path-anim .4s ease forwards;
-        }
-    }
-
-    .delete-note-inactive {
-        border: 1px solid $primary-color-2;
-    }
-}
-
-@keyframes checkmark-path-anim {
-    100% {
-        stroke-dashoffset: 0;
-    }
-}
-
-
-.edit-note-navigation {
-    @include flex(row, center, space-between);
-    position: sticky;
-    top: 0;
-    background: #FAFAFA;
-    outline: 2px solid #FAFAFA;
-    width: 100%;
-    padding: 2rem 0;
-    margin-bottom: 4px;
-
-    @include media-760px {
-        outline: none;
-        margin-bottom: 0;
-        padding: 2rem;
-        border-bottom: 1px solid #e9e9e9;
-    }
-
-    &-buttons {
-        @include flex(row, center, null);
-        gap: 3rem;
-    }
-}
-
-.edit-note-navigation-button {
-    @include flex(row, center, center);
-    font-size: var(--small-regular-font-size);
-    color: $primary-color-1;
-    font-weight: 600;
-    padding: .5rem;
-    cursor: pointer;
-}
-
-.edit-note-finish-edit {
-    border-radius: .5rem;
-    background: $secondary-color-2;
-    color: $secondary-color-1;
 
     svg {
-        width: 1.4rem;
-        margin-left: .5rem;
-
-        path {
-            stroke: $secondary-color-1;
-        }
+      width: 2.1rem;
+      height: 2.1rem;
     }
+  }
 }
 
-.edit-note-close-button {
+.search {
+  width: 100%;
+  position: relative;
+  border-radius: 10rem;
+  height: 5rem;
+
+  &-icon {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    left: 2rem;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    & path {
+      fill: $primary-color-2;
+    }
+  }
+
+  &-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: $secondary-color-1;
+    box-shadow: $box-shadow;
+    border-radius: 10rem;
+    padding: 0 2rem 0 4rem;
+    font-size: var(--regular-font-size);
+    color: $primary-color-1;
+
+    &:focus {
+      outline: 1px solid rgba(0, 0, 0, 0.4);
+      box-shadow: none;
+    }
+
+    &::placeholder {
+      font-size: 1.5rem;
+      color: $primary-color-2;
+      font-weight: 400;
+    }
+  }
+}
+
+.search-message {
+  width: 100%;
+  padding: 3rem 0;
+  border-bottom: 1px solid #e9e9e9;
+
+  @include media-760px {
+    padding: 2rem;
+  }
+
+  p {
+    font-size: var(--regular-font-size);
+    color: $primary-color-1;
+    font-weight: 600;
+  }
+}
+
+.no-notes-message {
+  @include flex(column, center, center);
+  width: 100%;
+  margin: 5rem 0;
+
+  img {
+    width: 30rem;
+    height: auto;
+
+    @include media-500px {
+      width: 24rem;
+    }
+  }
+
+  h2 {
+    margin-top: 3rem;
+    font-size: 2.4rem;
+    color: $primary-color-1;
+
+    @include media-760px {
+      font-size: 2rem;
+    }
+
+    span {
+      font-weight: 400;
+      color: $primary-color-1;
+    }
+  }
+}
+
+.home-actions {
+  @include flex(row, center, space-between);
+  position: sticky;
+  top: 8rem;
+  background: #fafafa;
+  outline: 2px solid #fafafa;
+  justify-content: space-between;
+  padding: 3rem 0;
+  border-bottom: 1px solid #e9e9e9;
+
+  @include media-760px {
+    padding: 2rem;
+  }
+}
+
+.info-when-deleting-note {
+  @include flex(row, center, null);
+
+  .cancel-note-deleting {
+    @include flex(row, center, center);
     position: relative;
+    cursor: pointer;
+    margin-right: 1.5rem;
     border-radius: 50%;
-    margin-left: -.5rem;
+    padding: 1rem;
+    margin-left: -1rem;
+
+    @media (max-width: 490px) {
+      &:hover {
+        background: none;
+      }
+    }
 
     &::after {
-        @include tooltip('Go back', 5rem , 3rem);
-    }
-    
-    @media (max-width: 490px) {
-        &:hover {
-            background: none;
-        }
+      @include tooltip("Cancel", 5rem, 3rem);
     }
 
     &:hover::after {
-        opacity: 1;
-        visibility: visible;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    & svg {
+      width: 1.5rem;
+      height: 1.5rem;
+
+      & path {
+        fill: $primary-color-1;
+      }
+    }
+  }
+
+  .notes-selected-number {
+    font-size: var(--regular-font-size);
+    font-weight: 600;
+    color: $primary-color-1;
+  }
+}
+
+.info-when-deleting-note-inactive {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.home-actions-buttons {
+  @include flex(row, center, null);
+}
+
+.home-action-button {
+  @include flex(row, center, center);
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  box-shadow: $box-shadow;
+  background: $secondary-color-1;
+  cursor: pointer;
+
+  &:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &:first-of-type {
+    margin-right: 1.5rem;
+  }
+
+  & svg {
+    width: 1.7rem;
+    height: 1.7rem;
+
+    path {
+      fill: $primary-color-1;
+    }
+  }
+
+  &-inactive svg path {
+    fill: $primary-color-2;
+  }
+
+  &-inactive {
+    cursor: not-allowed;
+  }
+}
+
+.home-delete-note {
+  &::after {
+    @include flex(row, center, center);
+    @include tooltip("Delete", 5rem, 3rem);
+  }
+}
+
+.home-new-note::after {
+  @include flex(row, center, center);
+  @include tooltip("New", 5rem, 3rem);
+}
+
+#notes-container {
+  @include flex(column, center, space-between);
+
+  @include media-760px {
+    padding: 0 2rem;
+  }
+}
+
+.note-wrapper {
+  width: 100%;
+  list-style-type: none;
+  transition: 0.4s ease margin;
+  margin-top: 3rem;
+
+  &:last-of-type {
+    margin-bottom: 3rem;
+  }
+
+  .edit-note {
+    @include flex(row, center, null);
+    font-size: var(--small-font-size);
+    color: $primary-color-1;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-left: -0.5rem;
+
+    @media (max-width: 490px) {
+      &:hover {
+        background: none;
+      }
     }
 
     svg {
+      margin-right: 0.5rem;
+      width: 1.3rem;
+      height: 1.3rem;
 
-        width: 2.3rem;
-
-        path {
-            fill: $primary-color-1;
-        }
+      path {
+        fill: $primary-color-1;
+      }
     }
+  }
+
+  .note {
+    display: grid;
+    grid-template-columns: minmax(80%, 100%) 1fr;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .note-and-date {
+    cursor: pointer;
+    box-shadow: $box-shadow;
+    background: $secondary-color-1;
+    border-radius: 2rem;
+    padding: 1rem;
+    min-width: 94%;
+
+    &:active {
+      background: $secondary-color-3;
+    }
+
+    .note-content {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: var(--regular-font-size);
+      color: $primary-color-1;
+      margin-bottom: 0.7rem;
+    }
+
+    .note-date {
+      font-size: var(--small-font-size);
+      color: $primary-color-2;
+    }
+  }
+
+  .new-or-edited-note-anim {
+    animation: new-or-edited-note-anim 1.2s forwards;
+  }
+
+  @keyframes new-or-edited-note-anim {
+    0% {
+      background: #e5e5e5;
+    }
+
+    100% {
+      background: $secondary-color-1;
+    }
+  }
+
+  .delete-note {
+    @include flex(row, center, center);
+    min-width: 2.2rem;
+    height: 2.2rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    margin-left: 2rem;
+
+    svg {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+  }
+
+  .checkmark-path {
+    stroke-dasharray: 21;
+    stroke-dashoffset: 21;
+  }
+
+  .delete-note-active {
+    background: $secondary-color-2;
+    border: none;
+
+    .checkmark-path {
+      stroke: $secondary-color-1;
+      animation: checkmark-path-anim 0.4s ease forwards;
+    }
+  }
+
+  .delete-note-inactive {
+    border: 1px solid $primary-color-2;
+  }
+}
+
+@keyframes checkmark-path-anim {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.edit-note-nav-and-actions {
+  position: sticky;
+  top: 0;
+  background: #fafafa;
+  outline: 2px solid #fafafa;
+}
+
+.edit-note-navigation {
+  @include flex(row, center, space-between);
+  flex-wrap: wrap;
+  gap: 2rem;
+  width: 100%;
+  padding: 2rem 0;
+  margin-bottom: 4px;
+
+  @include media-760px {
+    outline: none;
+    margin-bottom: 0;
+    padding: 2rem;
+    border-bottom: 1px solid #e9e9e9;
+  }
+
+  &-buttons {
+    @include flex(row, center, null);
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+}
+
+.edit-note-navigation-button {
+  @include flex(row, center, center);
+  gap: 0.7rem;
+  font-size: var(--regular-font-size);
+  color: $primary-color-1;
+  font-weight: 600;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  transition: 0.3s ease background-color;
+}
+
+.edit-note-finish-edit {
+  border-radius: 0.5rem;
+  background: $secondary-color-2;
+  color: $secondary-color-1;
+
+  &:hover {
+    background: #4d4ddb;
+  }
+
+  svg {
+    width: 1.4rem;
+
+    path {
+      stroke: $secondary-color-1;
+    }
+  }
+}
+
+.download-note-btn {
+  border-radius: 0.5rem;
+  background: $primary-color-1;
+  color: $secondary-color-1;
+  transition: 0.3s ease all;
+
+  &:hover {
+    background: #222252;
+  }
+}
+
+.edit-note-close-button {
+  position: relative;
+  border-radius: 50%;
+  margin-left: -0.5rem;
+
+  &::after {
+    @include tooltip("Back", 5rem, 3rem);
+  }
+
+  @media (max-width: 490px) {
+    &:hover {
+      background: none;
+    }
+  }
+
+  &:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  svg {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    path {
+      stroke: $primary-color-1;
+    }
+  }
+}
+
+.toggle-note-actions-bar {
+  position: relative;
+  border: 2px solid $secondary-color-2;
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+
+  &.collapse img:nth-of-type(2) {
+    transform: rotate(-180deg);
+  }
+
+  & img {
+    width: 1.9rem;
+    height: 1.9rem;
+    transition: 0.2s ease transform;
+  }
+
+  &:hover {
+    background-color: #e1e1ff;
+  }
+
+  &::after {
+    @include tooltip(attr(data-name), 5rem, 3rem);
+  }
+  &:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .edit-note-date {
-    font-size: var(--small-font-size);
-    color: $primary-color-2;
+  font-size: var(--small-regular-font-size);
+  color: $primary-color-2;
+  text-decoration: underline;
+}
+
+.edit-note-actions {
+  @include flex(row, center, null);
+  flex-wrap: wrap;
+  gap: 2rem 1.2rem;
+  background: $secondary-color-1;
+  box-shadow: $box-shadow;
+  padding: 1.3rem 2rem;
+  border-radius: 1rem;
+  transition: 0.3s ease all;
+
+  &.expand {
+    max-height: 220px;
+    padding: 1.3rem 2rem;
+    margin-bottom: 2rem;
+  }
+
+  &.collapse {
+    max-height: 0px;
+    padding: 0rem 2rem;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+
+  @include media-760px {
+    border-bottom: 1px solid #e9e9e9;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  &.expand {
+    @include media-760px {
+      margin-bottom: 0;
+    }
+  }
+
+  & img,
+  & svg {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  button {
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: $box-shadow;
+    cursor: pointer;
+    transition: 0.2s ease all;
+
+    &.change-color {
+      & input {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
+
+    &::after {
+      @include tooltip(attr(data-name), 5rem, 3rem);
+      z-index: 1;
+    }
+
+    &:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &:hover {
+      box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  & .font-size-range-wrapper {
+    position: relative;
+    @include flex(row, center, null);
+    gap: 0.7rem;
+
+    &::after {
+      @include tooltip(attr(data-name), 5rem, 3rem);
+    }
+
+    &:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 }
 
 .edit-note-content {
-    width: 100%;
-    min-height: 80rem;
-    margin-bottom: 3rem;
-    overflow-wrap: break-word;
-    font-size: var(--regular-font-size);
-    color: $primary-color-1;
-    background: $secondary-color-1;
-    box-shadow: $box-shadow;
-    line-height: 2.4rem;
-    border-radius: 2rem;
-    padding: 2rem;
+  width: 100%;
+  min-height: 80rem;
+  margin-bottom: 3rem;
+  overflow-wrap: break-word;
+  font-size: var(--regular-font-size);
+  color: $primary-color-1;
+  background: $secondary-color-1;
+  box-shadow: $box-shadow;
+  line-height: 2.4rem;
+  border-radius: 2rem;
+  padding: 2rem;
+  margin-top: .2rem;
 
-    @include media-760px {
-        border-radius: 0;
-        box-shadow: none;
-        margin-bottom: 0;
-    }
+  @include media-760px {
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+  }
 
-    &:focus {
-        border: none;
-        outline: none;
-    }
+  &:focus {
+    border: none;
+    outline: none;
+  }
 }
 
 footer {
-    @include flex(row, center, center);
-    margin-top: auto;
-    border-top: 1px solid #e9e9e9;
-    background: #FAFAFA;
-    width: 100%;
+  @include flex(row, center, center);
+  margin-top: auto;
+  border-top: 1px solid #e9e9e9;
+  background: #fafafa;
+  width: 100%;
 
-    .wrapper {
-        @include flex(row, center, space-between);
-        flex-wrap: wrap;
-        gap: 2rem;
-        padding: 2rem 0;
-        width: 70rem;
+  .wrapper {
+    @include flex(row, center, space-between);
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem 0;
+    width: 70rem;
 
-        p a {
-            color: $primary-color-1;
-        }
-
-        @include media-760px {
-            width: 100%;
-            padding: 1.5rem 2rem;
-        }
+    p a {
+      color: $primary-color-1;
     }
 
-    p {
-        font-size: var(--regular-font-size);
-        color: $primary-color-1;
+    @include media-760px {
+      width: 100%;
+      padding: 1.5rem 2rem;
     }
+  }
+
+  p {
+    font-size: var(--regular-font-size);
+    color: $primary-color-1;
+  }
 }
 
 .social-icons {
-    @include flex(row, center, null);
+  @include flex(row, center, null);
 
-    a {
-        padding: .3rem .7rem;
-        border: 1px solid #ebebeb;
-    }
+  a {
+    padding: 0.3rem 0.7rem;
+    border: 1px solid #ebebeb;
+  }
 
-    a:not(:first-of-type) {
-        border-left: 0;
-    }
+  a:not(:first-of-type) {
+    border-left: 0;
+  }
 
-    a:hover {
-        background: #ebebeb;
-    }
-    a:hover path {
-        fill: $primary-color-1;
-    }
+  a:hover {
+    background: #ebebeb;
+  }
+  a:hover path {
+    fill: $primary-color-1;
+  }
 
-    .social-icon {
-        width: 1.7rem;
-        cursor: pointer;
+  .social-icon {
+    width: 1.7rem;
+    cursor: pointer;
 
-        path {
-            fill: $primary-color-2;
-        }
+    path {
+      fill: $primary-color-2;
     }
+  }
 }
 
 .some-text {
-    font-size: 4rem;
-    margin-left: 4rem;
+  font-size: 4rem;
+  margin-left: 4rem;
 }
 
 @include media-500px {
-    html {
-        font-size: 59%;
-    }
+  html {
+    font-size: 59%;
+  }
 }
-
-
-
