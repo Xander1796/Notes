@@ -74,13 +74,18 @@
         <div class="search-wrapper">
           <button class="close-search hidden">
             <svg
-              id="Outline"
-              xmlns="http://www.w3.org/2000/svg"
+              stroke="currentColor"
+              fill="currentColor"
+              stroke-width="0"
               viewBox="0 0 24 24"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
             >
+              <path fill="none" d="M0 0h24v24H0V0z"></path>
               <path
-                d="M.876,14.088l3.879,3.879a1,1,0,0,0,1.414,0h0a1,1,0,0,0,0-1.414L2.614,13,23,13a1,1,0,0,0,1-1h0a1,1,0,0,0-1-1L2.553,11,6.169,7.381a1,1,0,0,0,0-1.414h0a1,1,0,0,0-1.414,0L.875,9.846A3.007,3.007,0,0,0,.876,14.088Z"
-              />
+                d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+              ></path>
             </svg>
           </button>
 
@@ -109,29 +114,86 @@
 
         <div class="home-actions">
           <div class="info-when-deleting-note info-when-deleting-note-inactive">
-            <button class="cancel-note-deleting">
+            <button class="btn-deleting-options">
+              <span class="notes-selected-number">1 item selected</span>
               <svg
-                viewBox="0 0 12 12"
-                fill="none"
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 24 24"
+                height="1.3em"
+                width="1.3em"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path
-                  d="M11 1L1 11"
-                  stroke="#171738"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M1 1L11 11"
-                  stroke="#171738"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+                <path fill="none" d="M0 0h24v24H0z"></path>
+                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
               </svg>
             </button>
-            <span class="notes-selected-number">1 item selected</span>
+            <ul class="deleting-options">
+              <li>
+                <button data-action="delete">
+                  <svg
+                    fill="currentColor"
+                    width="1em"
+                    height="1em"
+                    id="Outline"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M21,4H17.9A5.009,5.009,0,0,0,13,0H11A5.009,5.009,0,0,0,6.1,4H3A1,1,0,0,0,3,6H4V19a5.006,5.006,0,0,0,5,5h6a5.006,5.006,0,0,0,5-5V6h1a1,1,0,0,0,0-2ZM11,2h2a3.006,3.006,0,0,1,2.829,2H8.171A3.006,3.006,0,0,1,11,2Zm7,17a3,3,0,0,1-3,3H9a3,3,0,0,1-3-3V6H18Z"
+                    ></path>
+                    <path
+                      d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18Z"
+                    ></path>
+                    <path
+                      d="M14,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"
+                    ></path>
+                  </svg>
+                  Delete selection
+                </button>
+              </li>
+              <li>
+                <button data-action="cancel">
+                  <svg
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-width="0"
+                    viewBox="0 0 24 24"
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6.2253 4.81108C5.83477 4.42056 5.20161 4.42056 4.81108 4.81108C4.42056 5.20161 4.42056 5.83477 4.81108 6.2253L10.5858 12L4.81114 17.7747C4.42062 18.1652 4.42062 18.7984 4.81114 19.1889C5.20167 19.5794 5.83483 19.5794 6.22535 19.1889L12 13.4142L17.7747 19.1889C18.1652 19.5794 18.7984 19.5794 19.1889 19.1889C19.5794 18.7984 19.5794 18.1652 19.1889 17.7747L13.4142 12L19.189 6.2253C19.5795 5.83477 19.5795 5.20161 19.189 4.81108C18.7985 4.42056 18.1653 4.42056 17.7748 4.81108L12 10.5858L6.2253 4.81108Z"
+                      fill="currentColor"
+                    ></path>
+                  </svg>
+                  Cancel selection
+                </button>
+              </li>
+              <li>
+                <button data-action="select-all">
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 24 24"
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM8 16V4h12l.002 12H8z"
+                    ></path>
+                    <path
+                      d="M4 8H2v12c0 1.103.897 2 2 2h12v-2H4V8zm8.933 3.519-1.726-1.726-1.414 1.414 3.274 3.274 5.702-6.84-1.538-1.282z"
+                    ></path>
+                  </svg>
+                  Select all
+                </button>
+              </li>
+            </ul>
           </div>
 
           <div class="home-actions-buttons">
@@ -242,7 +304,7 @@
               </button>
             </div>
 
-            <span class="edit-note-date">27.11.2021</span>
+            <span class="edit-note-date"></span>
           </div>
           <div class="edit-note-actions expand">
             <button data-element="bold" data-name="bold">
@@ -322,7 +384,7 @@
         <p>
           Made by
           <a href="https://alexandru-albici.com" target="_blank"
-            >Albici Alexandru</a
+            >Alexandru Albici</a
           >
         </p>
         <div class="social-icons">

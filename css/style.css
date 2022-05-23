@@ -197,7 +197,7 @@ nav {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      background: #f1f1f1;
+      background: #ffffff;
       color: #171738;
       font-size: 1.5rem;
       font-weight: 600;
@@ -206,7 +206,9 @@ nav {
       white-space: nowrap;
       bottom: calc((3rem + 1rem) * -1);
       border-radius: 0.5rem;
-      padding: 0.4rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+      border: 1px solid #e8e8ff;
+      padding: 0.4rem 0.6rem;
       opacity: 0;
       visibility: hidden; }
       @media (max-width: 490px) {
@@ -215,11 +217,10 @@ nav {
     .search-wrapper .close-search:hover::after {
       opacity: 1;
       visibility: visible; }
-    .search-wrapper .close-search:hover {
-      background: #f1f1f1; }
     .search-wrapper .close-search svg {
-      width: 2.1rem;
-      height: 2.1rem; }
+      width: 2.5rem;
+      height: 2.5rem;
+      color: #171738; }
 
 .search {
   width: 100%;
@@ -307,55 +308,62 @@ nav {
       padding: 2rem; } }
 
 .info-when-deleting-note {
-  display: flex;
-  flex-direction: row;
-  align-items: center; }
-  .info-when-deleting-note .cancel-note-deleting {
+  position: relative; }
+  .info-when-deleting-note .btn-deleting-options {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-    margin-right: 1.5rem;
-    border-radius: 50%;
-    padding: 1rem;
-    margin-left: -1rem; }
-    @media (max-width: 490px) {
-      .info-when-deleting-note .cancel-note-deleting:hover {
-        background: none; } }
-    .info-when-deleting-note .cancel-note-deleting::after {
-      content: "Cancel";
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #f1f1f1;
-      color: #171738;
-      font-size: 1.5rem;
-      font-weight: 600;
-      min-width: 5rem;
-      min-height: 3rem;
-      white-space: nowrap;
-      bottom: calc((3rem + 1rem) * -1);
-      border-radius: 0.5rem;
-      padding: 0.4rem;
-      opacity: 0;
-      visibility: hidden; }
-      @media (max-width: 490px) {
-        .info-when-deleting-note .cancel-note-deleting::after {
-          display: none; } }
-    .info-when-deleting-note .cancel-note-deleting:hover::after {
-      opacity: 1;
-      visibility: visible; }
-    .info-when-deleting-note .cancel-note-deleting svg {
-      width: 1.5rem;
-      height: 1.5rem; }
-      .info-when-deleting-note .cancel-note-deleting svg path {
-        fill: #171738; }
-  .info-when-deleting-note .notes-selected-number {
-    font-size: var(--regular-font-size);
+    gap: 0.7rem;
+    background: #5757fb;
+    color: #ffffff;
+    padding: 1rem 0.7rem;
+    border-radius: 0.5rem;
     font-weight: 600;
-    color: #171738; }
+    font-size: var(--small-regular-font-size);
+    cursor: pointer;
+    transition: 0.2s ease background-color; }
+    .info-when-deleting-note .btn-deleting-options svg {
+      transition: 0.2s ease transform; }
+    .info-when-deleting-note .btn-deleting-options.open svg {
+      transform: rotate(-180deg); }
+    .info-when-deleting-note .btn-deleting-options span {
+      color: inherit; }
+    .info-when-deleting-note .btn-deleting-options:hover {
+      background-color: #4d4ddb; }
+  .info-when-deleting-note .deleting-options {
+    position: absolute;
+    left: 0;
+    top: 110%;
+    z-index: 10;
+    list-style-type: none;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    width: max-content;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.3);
+    transition: 0.2s ease all;
+    transform-origin: top left;
+    padding: 0.8rem 0; }
+    .info-when-deleting-note .deleting-options button {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 1rem 1.5rem;
+      font-size: var(--small-regular-font-size);
+      font-weight: 600;
+      color: #171738;
+      cursor: pointer;
+      width: 100%; }
+      .info-when-deleting-note .deleting-options button:hover {
+        background: #f5f5f5; }
+  .info-when-deleting-note .btn-deleting-options.open + .deleting-options {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1); }
 
 .info-when-deleting-note-inactive {
   visibility: hidden;
@@ -402,7 +410,7 @@ nav {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  background: #f1f1f1;
+  background: #ffffff;
   color: #171738;
   font-size: 1.5rem;
   font-weight: 600;
@@ -411,7 +419,9 @@ nav {
   white-space: nowrap;
   bottom: calc((3rem + 1rem) * -1);
   border-radius: 0.5rem;
-  padding: 0.4rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  border: 1px solid #e8e8ff;
+  padding: 0.4rem 0.6rem;
   opacity: 0;
   visibility: hidden; }
   @media (max-width: 490px) {
@@ -427,7 +437,7 @@ nav {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  background: #f1f1f1;
+  background: #ffffff;
   color: #171738;
   font-size: 1.5rem;
   font-weight: 600;
@@ -436,7 +446,9 @@ nav {
   white-space: nowrap;
   bottom: calc((3rem + 1rem) * -1);
   border-radius: 0.5rem;
-  padding: 0.4rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  border: 1px solid #e8e8ff;
+  padding: 0.4rem 0.6rem;
   opacity: 0;
   visibility: hidden; }
   @media (max-width: 490px) {
@@ -534,7 +546,10 @@ nav {
       stroke: #ffffff;
       animation: checkmark-path-anim 0.4s ease forwards; }
   .note-wrapper .delete-note-inactive {
-    border: 1px solid #707070; }
+    border: 1px solid #707070;
+    transition: 0.2s ease box-shadow; }
+    .note-wrapper .delete-note-inactive:hover {
+      box-shadow: inset 0 0 0 1px #707070; }
 
 @keyframes checkmark-path-anim {
   100% {
@@ -610,7 +625,7 @@ nav {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    background: #f1f1f1;
+    background: #ffffff;
     color: #171738;
     font-size: 1.5rem;
     font-weight: 600;
@@ -619,7 +634,9 @@ nav {
     white-space: nowrap;
     bottom: calc((3rem + 1rem) * -1);
     border-radius: 0.5rem;
-    padding: 0.4rem;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    border: 1px solid #e8e8ff;
+    padding: 0.4rem 0.6rem;
     opacity: 0;
     visibility: hidden; }
     @media (max-width: 490px) {
@@ -633,7 +650,8 @@ nav {
     visibility: visible; }
   .edit-note-close-button svg {
     width: 2.5rem;
-    height: 2.5rem; }
+    height: 2.5rem;
+    color: #171738; }
     .edit-note-close-button svg path {
       stroke: #171738; }
 
@@ -655,7 +673,7 @@ nav {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    background: #f1f1f1;
+    background: #ffffff;
     color: #171738;
     font-size: 1.5rem;
     font-weight: 600;
@@ -664,7 +682,9 @@ nav {
     white-space: nowrap;
     bottom: calc((3rem + 1rem) * -1);
     border-radius: 0.5rem;
-    padding: 0.4rem;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    border: 1px solid #e8e8ff;
+    padding: 0.4rem 0.6rem;
     opacity: 0;
     visibility: hidden; }
     @media (max-width: 490px) {
@@ -676,8 +696,12 @@ nav {
 
 .edit-note-date {
   font-size: var(--small-regular-font-size);
+  background: #ffffff;
+  font-weight: 600;
   color: #707070;
-  text-decoration: underline; }
+  box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem; }
 
 .edit-note-actions {
   display: flex;
@@ -698,6 +722,7 @@ nav {
     max-height: 0px;
     padding: 0rem 2rem;
     opacity: 0;
+    visibility: hidden;
     margin-bottom: 0; }
   @media (max-width: 760px) {
     .edit-note-actions {
@@ -731,7 +756,7 @@ nav {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      background: #f1f1f1;
+      background: #ffffff;
       color: #171738;
       font-size: 1.5rem;
       font-weight: 600;
@@ -740,7 +765,9 @@ nav {
       white-space: nowrap;
       bottom: calc((3rem + 1rem) * -1);
       border-radius: 0.5rem;
-      padding: 0.4rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+      border: 1px solid #e8e8ff;
+      padding: 0.4rem 0.6rem;
       opacity: 0;
       visibility: hidden;
       z-index: 1; }
@@ -763,7 +790,7 @@ nav {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      background: #f1f1f1;
+      background: #ffffff;
       color: #171738;
       font-size: 1.5rem;
       font-weight: 600;
@@ -772,7 +799,9 @@ nav {
       white-space: nowrap;
       bottom: calc((3rem + 1rem) * -1);
       border-radius: 0.5rem;
-      padding: 0.4rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+      border: 1px solid #e8e8ff;
+      padding: 0.4rem 0.6rem;
       opacity: 0;
       visibility: hidden; }
       @media (max-width: 490px) {
@@ -794,7 +823,7 @@ nav {
   line-height: 2.4rem;
   border-radius: 2rem;
   padding: 2rem;
-  margin-top: .2rem; }
+  margin-top: 0.2rem; }
   @media (max-width: 760px) {
     .edit-note-content {
       border-radius: 0;

@@ -381,8 +381,25 @@ homeSection.addEventListener("click", function (e) {
     }
   }
 
-  if (e.target.closest(".cancel-note-deleting")) {
+  if (e.target.dataset.action === "cancel") {
     noNotesSelected();
+  }
+
+  if (e.target.dataset.action === "delete") {
+    deleteSelectedNotes();
+    checkIfThereAreNotes();
+  }
+
+  if (e.target.dataset.action === "select-all") {
+    document.querySelectorAll(".delete-note").forEach((el) => {
+      if (!el.classList.contains("delete-note-active")) {
+        selectedNote = el.closest(".note-wrapper");
+        el.classList.remove("delete-note-inactive");
+        el.classList.add("delete-note-active");
+        addNoteToRemovalArray(selectedNote.id);
+      }
+    });
+    infoWhenDeletingNoteFunction();
   }
 
   if (
@@ -729,4 +746,36 @@ document.querySelector(".font-size-range").addEventListener("input", (e) => {
 editNoteContent.addEventListener("blur", (e) => {
   e.preventDefault();
   editNoteContent.focus();
+});
+
+//OPTIONS FOR DELETING WHEN A NOTE IS SELECTED
+const btnDeletingOptions = document.querySelector(".btn-deleting-options");
+const deletingOptionsBtns = document.querySelectorAll(
+  ".deleting-options button"
+);
+
+deletingOptionsBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    btnDeletingOptions.classList.remove("open");
+  });
+
+  btn.addEventListener("blur", () => {
+    setTimeout(() => {
+      if (!document.activeElement.closest(".info-when-deleting-note")) {
+        btnDeletingOptions.classList.remove("open");
+      }
+    }, 0);
+  });
+});
+
+btnDeletingOptions.addEventListener("click", () => {
+  btnDeletingOptions.classList.toggle("open");
+});
+
+btnDeletingOptions.addEventListener("blur", () => {
+  setTimeout(() => {
+    if (!document.activeElement.closest(".info-when-deleting-note")) {
+      btnDeletingOptions.classList.remove("open");
+    }
+  }, 0);
 });
